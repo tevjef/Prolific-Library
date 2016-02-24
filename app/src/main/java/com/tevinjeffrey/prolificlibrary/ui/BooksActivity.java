@@ -1,4 +1,4 @@
-package com.tevinjeffrey.prolificlibrary;
+package com.tevinjeffrey.prolificlibrary.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,7 +9,17 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class BooksActivity extends AppCompatActivity {
+import com.tevinjeffrey.prolificlibrary.LibraryApplication;
+import com.tevinjeffrey.prolificlibrary.R;
+import com.tevinjeffrey.prolificlibrary.dagger.UiComponent;
+import com.tevinjeffrey.prolificlibrary.ui.base.BaseActivity;
+
+import javax.inject.Inject;
+
+public class BooksActivity extends BaseActivity implements BooksView {
+
+    @Inject
+    BooksPresenter booksPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +37,8 @@ public class BooksActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -49,4 +61,20 @@ public class BooksActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void injectTargets() {
+        UiComponent.Initializer.init(this);
+    }
+
+    @Override
+    protected void setupPresenter() {
+        booksPresenter.attachView(this);
+    }
+
+    @Override
+    protected void destroyPresenter() {
+        booksPresenter.detachView();
+    }
+
 }
