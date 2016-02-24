@@ -4,9 +4,12 @@ import com.tevinjeffrey.prolificlibrary.LibraryApplication;
 import com.tevinjeffrey.prolificlibrary.data.DataManager;
 import com.tevinjeffrey.prolificlibrary.data.LibraryApi;
 
+import javax.inject.Singleton;
+
 import dagger.Component;
 
 @Component (modules = AppModule.class)
+@PerApplication
 public interface AppComponent {
 
     DataManager dataManager();

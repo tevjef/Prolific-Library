@@ -8,6 +8,7 @@ import com.tevinjeffrey.prolificlibrary.ui.BooksActivity;
 import dagger.Component;
 
 @Component(modules = UiModule.class, dependencies = AppComponent.class)
+@PerActivity
 public interface UiComponent {
     void inject(BooksActivity booksActivity);
 
