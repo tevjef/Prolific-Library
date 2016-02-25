@@ -13,21 +13,22 @@ import retrofit.http.Path;
 import rx.Observable;
 
 public interface RetroLibrary {
-    @GET("/books")
+    String apiKey = "56c4c7ecc4171e0009461b44";
+    @GET(apiKey + "/books/")
     Observable<List<Book>> getBooks();
 
-    @POST("/books/")
+    @POST(apiKey + "/books/")
     Observable<Book> addBook(@Body String book);
 
-    @GET("/books/{id}")
+    @GET(apiKey + "/books/{id}/")
     Observable<Book> getBook(@Path("id") int bookId);
 
-    @PUT("/books/{id}")
+    @PUT(apiKey + "/books/{id}/")
     Observable<Book> updateBook(@Path("id") int bookId, @Body String book);
 
-    @DELETE("/books/{id}")
+    @DELETE(apiKey + "/books/{id}/")
     Observable<Void> deleteBook(@Path("id") int bookId);
 
-    @DELETE("/clear")
+    @DELETE(apiKey + "/clear/")
     Observable<Void> clearBooks();
 }

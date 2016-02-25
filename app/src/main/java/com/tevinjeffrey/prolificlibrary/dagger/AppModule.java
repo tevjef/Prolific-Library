@@ -2,7 +2,9 @@ package com.tevinjeffrey.prolificlibrary.dagger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import com.tevinjeffrey.prolificlibrary.LibraryApplication;
 import com.tevinjeffrey.prolificlibrary.data.RetroLibrary;
 
@@ -13,6 +15,7 @@ import dagger.Provides;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
+import timber.log.Timber;
 
 @Module
 public class AppModule {
@@ -25,7 +28,16 @@ public class AppModule {
     @Provides
     @PerApplication
     public OkHttpClient providesOkHttpClient() {
-        return new OkHttpClient();
+        OkHttpClient client = new OkHttpClient();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                Timber.tag("OkHttp").i(message);
+            }
+        });
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        client.interceptors().add(interceptor);
+        return client;
     }
 
     @Provides
@@ -41,7 +53,7 @@ public class AppModule {
     public RetroLibrary providesRetroLibrary(OkHttpClient client, Gson gson) {
         return new Retrofit.Builder()
                 .client(client)
-                .baseUrl("http://prolific-interview.herokuapp.com/56c4c7ecc4171e0009461b44")
+                .baseUrl(HttpUrl.parse("http://prolific-interview.herokuapp.com/"))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
