@@ -1,17 +1,18 @@
 package com.tevinjeffrey.prolificlibrary.data.model;
 
+import android.os.Parcelable;
+
 import org.parceler.Parcel;
 
-@Parcel
-public class Book {
-    private int id;
-    private String author;
-    private String categories;
-    private String lastCheckedOut;
-    private String lastCheckedOutBy;
-    private String publisher;
-    private String title;
-    private String url;
+public class Book implements Parcelable {
+    int id;
+    String author;
+    String categories;
+    String lastCheckedOut;
+    String lastCheckedOutBy;
+    String publisher;
+    String title;
+    String url;
 
     public int getId() {
         return id;
@@ -115,4 +116,45 @@ public class Book {
             return this;
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(android.os.Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.author);
+        dest.writeString(this.categories);
+        dest.writeString(this.lastCheckedOut);
+        dest.writeString(this.lastCheckedOutBy);
+        dest.writeString(this.publisher);
+        dest.writeString(this.title);
+        dest.writeString(this.url);
+    }
+
+    public Book() {
+    }
+
+    protected Book(android.os.Parcel in) {
+        this.id = in.readInt();
+        this.author = in.readString();
+        this.categories = in.readString();
+        this.lastCheckedOut = in.readString();
+        this.lastCheckedOutBy = in.readString();
+        this.publisher = in.readString();
+        this.title = in.readString();
+        this.url = in.readString();
+    }
+
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
+        public Book createFromParcel(android.os.Parcel source) {
+            return new Book(source);
+        }
+
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
 }

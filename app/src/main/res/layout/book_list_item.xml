@@ -1,26 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="130dp"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:padding="16dp"
-    android:layout_height="72dp">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Secret Seven"
-        android:id="@+id/book_title"
-        android:textSize="14sp"
-        android:textColor="@android:color/black"
-        android:singleLine="true" />
+    android:layout_margin="16dp"
+    android:layout_height="200dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Enid Blyton"
-        android:id="@+id/book_author"
-        android:textSize="12sp"
-        android:alpha=".6"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="4dp"/>
+        <LinearLayout
+            android:layout_width="130dp"
+            android:layout_height="140dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="?colorPrimary">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/prolificp"
+                android:alpha=".6"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:background="?colorPrimaryDark">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Secret Seven"
+                android:id="@+id/book_title"
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Enid Blyton"
+                android:id="@+id/book_author"
+                android:textSize="12sp"
+                android:alpha=".6"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
 </LinearLayout>

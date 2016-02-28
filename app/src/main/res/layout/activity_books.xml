@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:id="@+id/main_content"
     tools:context=".ui.BooksActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -18,9 +19,33 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/toolbar_logo"
+                    android:src="@drawable/prolificp"
+                    android:layout_marginLeft="@dimen/default_margin" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/activity_books_title"
+                    style="@style/ToolbarTitleStyle"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/start_keyline"/>
+
+            </FrameLayout>
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
+
 
     <include layout="@layout/activity_books_content"/>
 
@@ -31,5 +56,17 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add_24dp" />
+
+<!--
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:id="@+id/bottom_sheet"
+        app:behavior_hideable="true"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+        <include layout="@layout/bottom_sheet_content_view" />
+    </FrameLayout>
+-->
 
 </android.support.design.widget.CoordinatorLayout>

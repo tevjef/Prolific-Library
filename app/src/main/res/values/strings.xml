@@ -2,4 +2,7 @@
     <string name="app_name">Prolific Library</string>
     <string name="action_settings">Settings</string>
     <string name="empty_view">Try adding some books</string>
+    <string name="activity_books_title">Library</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_delete">Trash</string>
 </resources>
