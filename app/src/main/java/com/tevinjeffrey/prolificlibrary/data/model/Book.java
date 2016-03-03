@@ -1,14 +1,17 @@
 package com.tevinjeffrey.prolificlibrary.data.model;
 
 import android.os.Parcelable;
+import android.text.format.DateUtils;
 
 import org.parceler.Parcel;
+
+import java.util.Date;
 
 public class Book implements Parcelable {
     int id;
     String author;
     String categories;
-    String lastCheckedOut;
+    Date lastCheckedOut;
     String lastCheckedOutBy;
     String publisher;
     String title;
@@ -27,7 +30,8 @@ public class Book implements Parcelable {
     }
 
     public String getLastCheckedOut() {
-        return lastCheckedOut;
+        if (lastCheckedOut == null) return null;
+        return DateUtils.getRelativeTimeSpanString(lastCheckedOut.getTime(), System.currentTimeMillis(), DateUtils.FORMAT_ABBREV_RELATIVE).toString();
     }
 
     public String getLastCheckedOutBy() {
@@ -106,15 +110,9 @@ public class Book implements Parcelable {
             return book;
         }
 
-        private Builder lastCheckedOut(String lastCheckedOut) {
-            book.lastCheckedOut = lastCheckedOut;
-            return this;
-        }
+    }
 
-        private Builder url(String url) {
-            book.url = url;
-            return this;
-        }
+    public Book() {
     }
 
     @Override
@@ -127,21 +125,19 @@ public class Book implements Parcelable {
         dest.writeInt(this.id);
         dest.writeString(this.author);
         dest.writeString(this.categories);
-        dest.writeString(this.lastCheckedOut);
+        dest.writeLong(lastCheckedOut != null ? lastCheckedOut.getTime() : -1);
         dest.writeString(this.lastCheckedOutBy);
         dest.writeString(this.publisher);
         dest.writeString(this.title);
         dest.writeString(this.url);
     }
 
-    public Book() {
-    }
-
     protected Book(android.os.Parcel in) {
         this.id = in.readInt();
         this.author = in.readString();
         this.categories = in.readString();
-        this.lastCheckedOut = in.readString();
+        long tmpLastCheckedOut = in.readLong();
+        this.lastCheckedOut = tmpLastCheckedOut == -1 ? null : new Date(tmpLastCheckedOut);
         this.lastCheckedOutBy = in.readString();
         this.publisher = in.readString();
         this.title = in.readString();

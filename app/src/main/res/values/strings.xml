@@ -5,4 +5,7 @@
     <string name="activity_books_title">Library</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Trash</string>
+    <string name="author">Author</string>
+    <string name="publisher">Publisher</string>
+    <string name="categories">Categories</string>
 </resources>

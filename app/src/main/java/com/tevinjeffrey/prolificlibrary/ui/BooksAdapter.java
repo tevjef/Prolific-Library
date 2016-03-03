@@ -15,12 +15,12 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 
-public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BooksViewHolder>{
+public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksViewHolder>{
 
     private final List<Book> dataSet;
     private final ItemClickListener<Book, View> itemClickListener;
 
-    public BookAdapter(List<Book> dataSet,  @NonNull ItemClickListener<Book, View> listener) {
+    public BooksAdapter(List<Book> dataSet, @NonNull ItemClickListener<Book, View> listener) {
         this.dataSet = dataSet;
         this.itemClickListener = listener;
     }

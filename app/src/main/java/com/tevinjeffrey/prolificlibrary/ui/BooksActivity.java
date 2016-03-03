@@ -1,7 +1,6 @@
 package com.tevinjeffrey.prolificlibrary.ui;
 
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -52,15 +50,15 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
         setSupportActionBar(toolbar);
         toolbar.setTitle("");
 
-        booksList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        booksList.setLayoutManager(new LinearLayoutManager(this));
         booksList.setHasFixedSize(true);
 
         if (dataSet == null) {
-            dataSet = new ArrayList<>(100);
+            dataSet = new ArrayList<>();
         }
 
         if (booksList.getAdapter() == null) {
-            booksList.setAdapter(new BookAdapter(dataSet, this));
+            booksList.setAdapter(new BooksAdapter(dataSet, this));
         }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -69,10 +67,7 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
                 booksPresenter.loadData(true);
             }
         });
-
-
     }
-
 
     @Override
     protected void onResume() {
@@ -143,7 +138,7 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
     @Override
     public void onItemClicked(Book data, View view) {
         Toast.makeText(this, data.toString(), Toast.LENGTH_SHORT).show();
-        BottomSheetDialogFragment bottomSheetDialogFragment = new Bottom();
+        BottomSheetDialogFragment bottomSheetDialogFragment = new BookDetails();
         Bundle bundle = new Bundle();
         bundle.putParcelable("Book", data);
         bottomSheetDialogFragment.setArguments(bundle);

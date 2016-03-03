@@ -6,7 +6,10 @@ import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import com.tevinjeffrey.prolificlibrary.LibraryApplication;
+import com.tevinjeffrey.prolificlibrary.data.DateDeserializer;
 import com.tevinjeffrey.prolificlibrary.data.RetroLibrary;
+
+import java.util.Date;
 
 import javax.inject.Singleton;
 
@@ -45,6 +48,7 @@ public class AppModule {
     public Gson providesJson() {
         return new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd HH:mm:ss zzz")
+                .registerTypeAdapter(Date.class, new DateDeserializer())
                 .create();
     }
 
