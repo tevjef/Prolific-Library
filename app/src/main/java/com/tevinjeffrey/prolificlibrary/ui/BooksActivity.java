@@ -89,11 +89,6 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -104,6 +99,7 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
 
     @Override
     public void setData(List<Book> books) {
+        dataSet.clear();
         dataSet.addAll(books);
         booksList.getAdapter().notifyDataSetChanged();
     }
@@ -138,9 +134,9 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
     @Override
     public void onItemClicked(Book data, View view) {
         Toast.makeText(this, data.toString(), Toast.LENGTH_SHORT).show();
-        BottomSheetDialogFragment bottomSheetDialogFragment = new SingleBookDetails();
+        BottomSheetDialogFragment bottomSheetDialogFragment = new SingleBookFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("Book", data);
+        bundle.putParcelable(SingleBookFragment.SELECTED_BOOK, data);
         bottomSheetDialogFragment.setArguments(bundle);
         bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
     }

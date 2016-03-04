@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.tevinjeffrey.prolificlibrary.LibraryApplication;
 import com.tevinjeffrey.prolificlibrary.ui.BooksActivity;
+import com.tevinjeffrey.prolificlibrary.ui.SingleBookFragment;
 
 import dagger.Component;
 
@@ -11,6 +12,7 @@ import dagger.Component;
 @PerActivity
 public interface UiComponent {
     void inject(BooksActivity booksActivity);
+    void inject(SingleBookFragment booksActivity);
 
     final class Initializer  {
         private Initializer() {

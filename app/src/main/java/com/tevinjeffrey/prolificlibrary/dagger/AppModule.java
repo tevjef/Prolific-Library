@@ -11,8 +11,6 @@ import com.tevinjeffrey.prolificlibrary.data.RetroLibrary;
 
 import java.util.Date;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import retrofit.GsonConverterFactory;

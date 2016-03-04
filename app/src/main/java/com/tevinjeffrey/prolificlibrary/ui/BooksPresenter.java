@@ -11,7 +11,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observer;
-import rx.Scheduler;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -56,6 +55,37 @@ public class BooksPresenter extends BasePresenter<BooksView> {
                          if (getView() != null) {
                              getView().setData(books);
                          }
+                    }
+                });
+    }
+
+    public void deleteAll(boolean showLoading) {
+        if (getView() != null) {
+            getView().showLoading(showLoading);
+        }
+
+        RxUtils.unsubscribeIfNotNull(subscription);
+        subscription = dataManager.clearBooks()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Void>() {
+                    @Override
+                    public void onCompleted() {
+                        if (getView() != null) {
+                            getView().showLoading(false);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (getView() != null) {
+                            getView().showLoading(false);
+                            getView().showError(e);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Void books) {
                     }
                 });
     }

@@ -3,8 +3,6 @@ package com.tevinjeffrey.prolificlibrary.data.model;
 import android.os.Parcelable;
 import android.text.format.DateUtils;
 
-import org.parceler.Parcel;
-
 import java.util.Date;
 
 public class Book implements Parcelable {

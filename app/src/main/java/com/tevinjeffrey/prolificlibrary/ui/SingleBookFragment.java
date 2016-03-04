@@ -1,6 +1,8 @@
 package com.tevinjeffrey.prolificlibrary.ui;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,21 +13,24 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tevinjeffrey.prolificlibrary.R;
+import com.tevinjeffrey.prolificlibrary.dagger.UiComponent;
 import com.tevinjeffrey.prolificlibrary.data.model.Book;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SingleBookDetails extends BottomSheetDialogFragment {
+public class SingleBookFragment extends BottomSheetDialogFragment implements SingleBookView {
+    public final static String SELECTED_BOOK = "book";
+
     BottomSheetBehavior behavior;
     View contentView;
     @Bind(R.id.book_name)
@@ -55,6 +60,9 @@ public class SingleBookDetails extends BottomSheetDialogFragment {
     @Bind(R.id.categories_view)
     FrameLayout categoriesView;
 
+    @Inject
+    SingleBookPresenter singleBookPresenter;
+
     private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
         @Override
         public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -71,26 +79,34 @@ public class SingleBookDetails extends BottomSheetDialogFragment {
     };
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        singleBookPresenter.detachView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
-        DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        UiComponent.Initializer.init(getActivity()).inject(this);
+        singleBookPresenter.attachView(this);
         contentView = View.inflate(getContext(), R.layout.bottom_sheet_content_view, null);
+        ButterKnife.bind(this, contentView);
+
         dialog.setContentView(contentView);
         CoordinatorLayout.LayoutParams layoutParams =
                 (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();
         behavior = (BottomSheetBehavior) layoutParams.getBehavior();
         behavior.setBottomSheetCallback(mBottomSheetBehaviorCallback);
-        behavior.setPeekHeight(metrics.heightPixels - getStatusBarHeight());
+        behavior.setPeekHeight(getWindowHeight());
         behavior.setHideable(true);
 
-        final Book book = getArguments().getParcelable("Book");
+        final Book book = getArguments().getParcelable(SELECTED_BOOK);
         if (book == null) {
             dismiss();
             return;
         }
         //http://stackoverflow.com/a/32724422/2238427
-        ButterKnife.bind(this, contentView);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
@@ -109,8 +125,8 @@ public class SingleBookDetails extends BottomSheetDialogFragment {
                 }
             }
         });
-        collapsingToolbar.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
-        collapsingToolbar.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
+        collapsingToolbar.setExpandedTitleColor(Color.TRANSPARENT);
+        collapsingToolbar.setCollapsedTitleTextColor(Color.WHITE);
 
         toolbar.inflateMenu(R.menu.menu_book);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -122,6 +138,13 @@ public class SingleBookDetails extends BottomSheetDialogFragment {
                         break;
                     case R.id.action_delete:
                         Toast.makeText(getContext(), "Delete click", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_share:
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, book.getTitle() + " by " + book.getAuthor());
+                        sendIntent.setType("text/plain");
+                        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
                         break;
                 }
                 return false;
@@ -135,6 +158,13 @@ public class SingleBookDetails extends BottomSheetDialogFragment {
             }
         });
         setBookDetails(book);
+    }
+
+    @NonNull
+    private int getWindowHeight() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return metrics.heightPixels - getStatusBarHeight();
     }
 
     private void setBookDetails(Book book) {
@@ -167,7 +197,7 @@ public class SingleBookDetails extends BottomSheetDialogFragment {
     }
 
     private void setBookTitle(Book book) {
-        bookName.setText(book.getTitle() == null?"Unknown":book.getTitle());
+        bookName.setText(book.getTitle() == null ? "Unknown" : book.getTitle());
     }
 
     public int getStatusBarHeight() {
@@ -180,9 +210,38 @@ public class SingleBookDetails extends BottomSheetDialogFragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
+    public void showError(Throwable e) {
+
+    }
+
+    @Override
+    public void setData(Book books) {
+
+    }
+
+    @Override
+    public void showLoading(boolean isLoading) {
+
+    }
+
+    @Override
+    public void checkoutSuccess() {
+
+    }
+
+    @Override
+    public void checkoutFail() {
+
+    }
+
+    @Override
+    public void deleteSuccess() {
+
+    }
+
+    @Override
+    public void deleteFail() {
+
     }
 
 /*    public static String getStateAsString(int newState) {
@@ -201,14 +260,4 @@ public class SingleBookDetails extends BottomSheetDialogFragment {
         return "undefined";
     }*/
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
 }
