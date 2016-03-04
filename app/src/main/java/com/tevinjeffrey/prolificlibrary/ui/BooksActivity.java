@@ -138,7 +138,7 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
     @Override
     public void onItemClicked(Book data, View view) {
         Toast.makeText(this, data.toString(), Toast.LENGTH_SHORT).show();
-        BottomSheetDialogFragment bottomSheetDialogFragment = new BookDetails();
+        BottomSheetDialogFragment bottomSheetDialogFragment = new SingleBookDetails();
         Bundle bundle = new Bundle();
         bundle.putParcelable("Book", data);
         bottomSheetDialogFragment.setArguments(bundle);
