@@ -8,4 +8,5 @@
     <string name="author">Author</string>
     <string name="publisher">Publisher</string>
     <string name="categories">Categories</string>
+    <string name="action_share">Share book</string>
 </resources>
