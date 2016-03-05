@@ -5,6 +5,9 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Func1;
+import rx.subjects.PublishSubject;
+import rx.subjects.SerializedSubject;
+import rx.subjects.Subject;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
@@ -66,6 +69,12 @@ public class RxUtils {
                     ", _retryDelayMillis=" + _retryDelayMillis +
                     ", _retryCount=" + _retryCount +
                     '}';
+        }
+    }
+
+    public static class RxBus {
+        public static void send(Subject<Object, Object> bus, Object o) {
+            bus.onNext(o);
         }
     }
 }

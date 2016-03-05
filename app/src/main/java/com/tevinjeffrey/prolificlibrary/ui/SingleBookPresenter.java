@@ -16,6 +16,7 @@ public class SingleBookPresenter extends BasePresenter<SingleBookView> {
     private final DataManager dataManager;
     private Subscription checkoutSubscription;
     private Subscription deleteSubscription;
+    private Subscription updateSubscription;
 
     @Inject
     public SingleBookPresenter(DataManager manager) {
@@ -45,20 +46,21 @@ public class SingleBookPresenter extends BasePresenter<SingleBookView> {
                     }
 
                     @Override
-                    public void onNext(Book books) {
+                    public void onNext(Book book) {
                         if (getView() != null) {
+                            getView().setData(book);
                             getView().checkoutSuccess();
                         }
                     }
                 });
     }
-
-    public void delete(int id) {
-        RxUtils.unsubscribeIfNotNull(deleteSubscription);
-        deleteSubscription = dataManager.deletebook(id)
+    
+    public void update(int id, final Book book) {
+        RxUtils.unsubscribeIfNotNull(updateSubscription);
+        updateSubscription = dataManager.updateBook(id, book)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Void>() {
+                .subscribe(new Observer<Book>() {
                     @Override
                     public void onCompleted() {
                         if (getView() != null) {
@@ -70,16 +72,47 @@ public class SingleBookPresenter extends BasePresenter<SingleBookView> {
                     public void onError(Throwable e) {
                         if (getView() != null) {
                             getView().showLoading(false);
-                            getView().deleteFail();
+                            getView().updateFail();
                             getView().showError(e);
                         }
                     }
 
                     @Override
-                    public void onNext(Void books) {
+                    public void onNext(Book book) {
                         if (getView() != null) {
+                            getView().setData(book);
+                            getView().updateSuccess();
+                        }
+                    }
+                });
+    }
+
+    public void delete(int id) {
+        RxUtils.unsubscribeIfNotNull(deleteSubscription);
+        deleteSubscription = dataManager.deleteBook(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Void>() {
+                    @Override
+                    public void onCompleted() {
+                        if (getView() != null) {
+                            getView().showLoading(false);
                             getView().deleteSuccess();
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (getView() != null) {
+                            getView().showLoading(false);
+                            getView().showError(e);
+                            getView().deleteFail();
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Void nil) {
+
                     }
                 });
     }

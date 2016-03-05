@@ -9,4 +9,7 @@ public interface BooksView extends BaseView {
     void showError(Throwable e);
     void setData(List<Book> books);
     void showLoading(boolean isLoading);
+    void updateBook(Book updatedBook);
+    void deleteBook(int id);
+    void deleteAllBooks();
 }

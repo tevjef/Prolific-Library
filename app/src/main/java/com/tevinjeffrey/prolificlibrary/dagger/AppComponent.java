@@ -2,16 +2,16 @@ package com.tevinjeffrey.prolificlibrary.dagger;
 
 import com.tevinjeffrey.prolificlibrary.LibraryApplication;
 import com.tevinjeffrey.prolificlibrary.data.DataManager;
-import com.tevinjeffrey.prolificlibrary.data.LibraryApi;
 
 import dagger.Component;
+import rx.subjects.Subject;
 
 @Component (modules = AppModule.class)
 @PerApplication
 public interface AppComponent {
 
     DataManager dataManager();
-    LibraryApi libraryApi();
+    @RxBus Subject<Object, Object> rxBus();
 
     final class Initializer  {
         private Initializer() {

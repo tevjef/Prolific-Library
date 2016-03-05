@@ -1,5 +1,6 @@
 package com.tevinjeffrey.prolificlibrary.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
@@ -67,6 +68,13 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
                 booksPresenter.loadData(true);
             }
         });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BooksActivity.this, NewBookActivity.class));
+            }
+        });
     }
 
     @Override
@@ -105,6 +113,26 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
     }
 
     @Override
+    public void updateBook(Book updatedBook) {
+        int indexOf = dataSet.indexOf(updatedBook);
+        dataSet.set(indexOf, updatedBook);
+        booksList.getAdapter().notifyItemChanged(indexOf);
+    }
+
+    @Override
+    public void deleteBook(int id) {
+        int indexOf = dataSet.indexOf(new Book.Builder().id(id).build());
+        dataSet.remove(indexOf);
+        booksList.getAdapter().notifyItemRemoved(indexOf);
+    }
+
+    @Override
+    public void deleteAllBooks() {
+        dataSet.clear();
+        booksList.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
     public void showLoading(final boolean isLoading) {
         swipeRefreshLayout.post(new Runnable() {
             @Override
@@ -114,6 +142,15 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
                 }
             }
         });
+    }
+
+    @Override
+    public void onItemClicked(Book data, View view) {
+        BottomSheetDialogFragment bottomSheetDialogFragment = new SingleBookFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(SingleBookFragment.SELECTED_BOOK, data);
+        bottomSheetDialogFragment.setArguments(bundle);
+        bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
     }
 
     @Override
@@ -129,15 +166,5 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
     @Override
     protected void destroyPresenter() {
         booksPresenter.detachView();
-    }
-
-    @Override
-    public void onItemClicked(Book data, View view) {
-        Toast.makeText(this, data.toString(), Toast.LENGTH_SHORT).show();
-        BottomSheetDialogFragment bottomSheetDialogFragment = new SingleBookFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(SingleBookFragment.SELECTED_BOOK, data);
-        bottomSheetDialogFragment.setArguments(bundle);
-        bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
     }
 }

@@ -11,11 +11,16 @@ import com.tevinjeffrey.prolificlibrary.data.RetroLibrary;
 
 import java.util.Date;
 
+import javax.inject.Named;
+
 import dagger.Module;
 import dagger.Provides;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
+import rx.subjects.PublishSubject;
+import rx.subjects.SerializedSubject;
+import rx.subjects.Subject;
 import timber.log.Timber;
 
 @Module
@@ -43,9 +48,17 @@ public class AppModule {
 
     @Provides
     @PerApplication
+    @RxBus
+    public Subject<Object, Object> providesRxBus() {
+        return new SerializedSubject<>(PublishSubject.create());
+    }
+
+    @Provides
+    @PerApplication
     public Gson providesJson() {
         return new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd HH:mm:ss zzz")
+                .disableHtmlEscaping()
                 .registerTypeAdapter(Date.class, new DateDeserializer())
                 .create();
     }

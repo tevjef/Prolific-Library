@@ -9,4 +9,23 @@
     <string name="publisher">Publisher</string>
     <string name="categories">Categories</string>
     <string name="action_share">Share book</string>
+    <string name="action_delete_all">Delete All Books</string>
+    <string name="book_title">Book title</string>
+    <string name="send_to">Send book to</string>
+    <string name="title_activity_new_book">Add a new book</string>
+    <string name="are_you_sure">Are you sure</string>
+    <string name="agree">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit_author">Edit author</string>
+    <string name="edit_author_hint">e.g Joshua Bloch</string>
+    <string name="edit_publisher">Edit publisher</string>
+    <string name="edit_publisher_hint">e.g Pearson</string>
+    <string name="edit_categories">Edit categories</string>
+    <string name="edit_categories_hint">e.g android, ios, programming</string>
+    <string name="edit_book_title">Edit book title</string>
+    <string name="edit_book_title_hint">e.g Effective Java</string>
+    <string name="progress_dialog">Updating</string>
+    <string name="please_wait">Please wait</string>
+    <string name="enter_name">Enter name</string>
+    <string name="edit_enter_name_hint">e.g Chet Haase</string>
 </resources>
