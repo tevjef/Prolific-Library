@@ -1,11 +1,10 @@
 # Prolific Library
 
-Prolific Library follows a Model-View-Presenter (MVP) architectural pattern and borrows some elements from the [Mosby](http://hannesdorfmann.com/mosby/) library.
-
 <p align="center">
     <img src="assets/github-banner.png" alt="Screenshots"/>
 </p>
 
+[https://www.youtube.com/watch?v=T4ilub40oUg](https://www.youtube.com/watch?v=T4ilub40oUg "Youtube Video Demo")
 ## Requirements
 
 - [Android SDK](http://developer.android.com/sdk/index.html).
@@ -14,6 +13,8 @@ Prolific Library follows a Model-View-Presenter (MVP) architectural pattern and 
 - Android SDK Build tools 23.0.2
 - Android Support Repository 23.2
 - MinSdkVersion 14
+
+
 
 ## Libraries
 
