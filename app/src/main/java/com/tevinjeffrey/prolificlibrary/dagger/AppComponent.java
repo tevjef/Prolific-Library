@@ -1,10 +1,9 @@
 package com.tevinjeffrey.prolificlibrary.dagger;
 
-import com.tevinjeffrey.prolificlibrary.BuildConfig;
 import com.tevinjeffrey.prolificlibrary.LibraryApplication;
+import com.tevinjeffrey.prolificlibrary.dagger.annotations.PerApplication;
+import com.tevinjeffrey.prolificlibrary.dagger.annotations.RxBus;
 import com.tevinjeffrey.prolificlibrary.data.DataManager;
-
-import javax.inject.Named;
 
 import dagger.Component;
 import rx.subjects.Subject;
@@ -14,7 +13,8 @@ import rx.subjects.Subject;
 public interface AppComponent {
 
     DataManager dataManager();
-    @RxBus Subject<Object, Object> rxBus();
+    @RxBus
+    Subject<Object, Object> rxBus();
 
     final class Initializer  {
         private Initializer() {

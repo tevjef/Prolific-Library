@@ -1,4 +1,4 @@
-package com.tevinjeffrey.prolificlibrary.dagger;
+package com.tevinjeffrey.prolificlibrary.dagger.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

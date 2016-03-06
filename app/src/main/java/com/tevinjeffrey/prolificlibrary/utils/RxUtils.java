@@ -5,11 +5,8 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Func1;
-import rx.subjects.PublishSubject;
-import rx.subjects.SerializedSubject;
 import rx.subjects.Subject;
 import rx.subscriptions.CompositeSubscription;
-import timber.log.Timber;
 
 public class RxUtils {
 
@@ -49,10 +46,6 @@ public class RxUtils {
                 @Override
                 public Observable<?> call(Throwable throwable) {
                     if (++_retryCount < _maxRetries) {
-                        // When this Observable calls onNext, the original
-                        // Observable will be retried (i.e. re-subscribed).
-                        Timber.d("Retry %d", _retryCount);
-                        Timber.d("Retrying in %d ms", _retryCount * _retryDelayMillis);
                         return Observable.timer(_retryCount * _retryDelayMillis,
                                 TimeUnit.MILLISECONDS);
                     }

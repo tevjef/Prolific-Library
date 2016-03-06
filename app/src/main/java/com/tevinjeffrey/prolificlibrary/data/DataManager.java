@@ -7,14 +7,9 @@ import java.util.List;
 import rx.Observable;
 
 public interface DataManager {
-
     Observable<List<Book>> getBooks();
-
     Observable<Book> addBook(Book book);
-
     Observable<Book> updateBook(int id, Book book);
-
     Observable<Void> deleteBook(int id);
-
     Observable<Void> clearBooks();
 }

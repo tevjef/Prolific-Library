@@ -10,9 +10,10 @@ import javax.inject.Inject;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class SingleBookPresenter extends BasePresenter<SingleBookView> {
+class SingleBookPresenter extends BasePresenter<SingleBookView> {
     private final DataManager dataManager;
     private Subscription checkoutSubscription;
     private Subscription deleteSubscription;
@@ -28,28 +29,20 @@ public class SingleBookPresenter extends BasePresenter<SingleBookView> {
         checkoutSubscription = dataManager.updateBook(id, book)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Book>() {
+                .subscribe(new Action1<Book>() {
                     @Override
-                    public void onCompleted() {
-                        if (getView() != null) {
-                            getView().showLoading(false);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (getView() != null) {
-                            getView().showLoading(false);
-                            getView().checkoutFail();
-                            getView().showError(e);
-                        }
-                    }
-
-                    @Override
-                    public void onNext(Book book) {
+                    public void call(Book book) {
                         if (getView() != null) {
                             getView().setData(book);
                             getView().checkoutSuccess();
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        if (getView() != null) {
+                            getView().checkoutFail();
+                            getView().showError(throwable);
                         }
                     }
                 });
@@ -63,15 +56,11 @@ public class SingleBookPresenter extends BasePresenter<SingleBookView> {
                 .subscribe(new Observer<Book>() {
                     @Override
                     public void onCompleted() {
-                        if (getView() != null) {
-                            getView().showLoading(false);
-                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         if (getView() != null) {
-                            getView().showLoading(false);
                             getView().updateFail();
                             getView().showError(e);
                         }
@@ -96,7 +85,6 @@ public class SingleBookPresenter extends BasePresenter<SingleBookView> {
                     @Override
                     public void onCompleted() {
                         if (getView() != null) {
-                            getView().showLoading(false);
                             getView().deleteSuccess();
                         }
                     }
@@ -104,7 +92,6 @@ public class SingleBookPresenter extends BasePresenter<SingleBookView> {
                     @Override
                     public void onError(Throwable e) {
                         if (getView() != null) {
-                            getView().showLoading(false);
                             getView().showError(e);
                             getView().deleteFail();
                         }
@@ -112,7 +99,6 @@ public class SingleBookPresenter extends BasePresenter<SingleBookView> {
 
                     @Override
                     public void onNext(Void nil) {
-
                     }
                 });
     }

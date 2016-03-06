@@ -100,7 +100,7 @@ public class Book implements Parcelable {
 
     // Kotlin please save us!
     public static class Builder {
-        Book book;
+        final Book book;
         public Builder() {
             book = new Book();
         }
@@ -152,7 +152,7 @@ public class Book implements Parcelable {
 
     }
 
-    public Book() {
+    private Book() {
     }
 
     @Override

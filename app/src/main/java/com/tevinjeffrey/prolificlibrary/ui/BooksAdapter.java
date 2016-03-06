@@ -17,11 +17,11 @@ import butterknife.ButterKnife;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksViewHolder>{
 
-    private final List<Book> dataSet;
+    private final List<Book> bookDataSet;
     private final ItemClickListener<Book, View> itemClickListener;
 
-    public BooksAdapter(List<Book> dataSet, @NonNull ItemClickListener<Book, View> listener) {
-        this.dataSet = dataSet;
+    public BooksAdapter(List<Book> bookDataSet, @NonNull ItemClickListener<Book, View> listener) {
+        this.bookDataSet = bookDataSet;
         this.itemClickListener = listener;
     }
 
@@ -34,7 +34,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksViewHol
             public void onClick(View v) {
                 int adapterPos = booksViewHolder.getAdapterPosition();
                 if (adapterPos != RecyclerView.NO_POSITION) {
-                    itemClickListener.onItemClicked(dataSet.get(adapterPos), v);
+                    itemClickListener.onItemClicked(bookDataSet.get(adapterPos), v);
                 }
             }
         });
@@ -43,23 +43,23 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksViewHol
 
     @Override
     public int getItemCount() {
-        return dataSet.size();
+        return bookDataSet.size();
     }
 
     @Override
     public void onBindViewHolder(BooksViewHolder holder, int position) {
-        holder.bindView(dataSet.get(position));
+        holder.bindView(bookDataSet.get(position));
     }
 
     public static class BooksViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
-        TextView author;
-        View parent;
-        public BooksViewHolder(View itemView) {
-            super(itemView);
-            parent = itemView;
-            title = ButterKnife.findById(itemView, R.id.book_title);
-            author = ButterKnife.findById(itemView, R.id.book_author);
+        final TextView title;
+        final TextView author;
+        final View parent;
+        public BooksViewHolder(View parent) {
+            super(parent);
+            this.parent = parent;
+            title = ButterKnife.findById(parent, R.id.book_title);
+            author = ButterKnife.findById(parent, R.id.book_author);
         }
 
         public void setTitle(String title) {

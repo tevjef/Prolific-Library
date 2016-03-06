@@ -2,9 +2,6 @@ package com.tevinjeffrey.prolificlibrary.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.text.TextUtilsCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,36 +23,14 @@ import butterknife.OnClick;
 
 public class NewBookActivity extends BaseActivity implements NewBookView {
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.book_name_edit)
-    EditText bookNameEdit;
-    @Bind(R.id.book_author_edit)
-    EditText bookAuthorEdit;
-    @Bind(R.id.book_publisher_edit)
-    EditText bookPublisherEdit;
-    @Bind(R.id.book_categories_edit)
-    EditText bookCategoriesEdit;
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.book_name_edit) EditText bookNameEdit;
+    @Bind(R.id.book_author_edit) EditText bookAuthorEdit;
+    @Bind(R.id.book_publisher_edit) EditText bookPublisherEdit;
+    @Bind(R.id.book_categories_edit) EditText bookCategoriesEdit;
+    @Bind(R.id.fab) FloatingActionButton fab;
 
-    @Inject
-    NewBookPresenter newBookPresenter;
-
-    @Override
-    protected void setupPresenter() {
-        newBookPresenter.attachView(this);
-    }
-
-    @Override
-    protected void destroyPresenter() {
-        newBookPresenter.detachView();
-    }
-
-    @Override
-    protected void injectTargets() {
-        UiComponent.Initializer.init(this).inject(this);
-    }
+    @Inject NewBookPresenter newBookPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +39,6 @@ public class NewBookActivity extends BaseActivity implements NewBookView {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +60,22 @@ public class NewBookActivity extends BaseActivity implements NewBookView {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+
+    @Override
+    protected void setupPresenter() {
+        newBookPresenter.attachView(this);
+    }
+
+    @Override
+    protected void destroyPresenter() {
+        newBookPresenter.detachView();
+    }
+
+    @Override
+    protected void injectTargets() {
+        UiComponent.Initializer.init(this).inject(this);
     }
 
     @OnClick({R.id.book_name_edit, R.id.book_author_edit, R.id.book_publisher_edit, R.id.book_categories_edit, R.id.fab})
@@ -111,8 +101,4 @@ public class NewBookActivity extends BaseActivity implements NewBookView {
         finish();
     }
 
-    @Override
-    public void showLoading(boolean isLoading) {
-
-    }
 }

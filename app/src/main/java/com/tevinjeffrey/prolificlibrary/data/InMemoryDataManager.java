@@ -1,7 +1,6 @@
 package com.tevinjeffrey.prolificlibrary.data;
 
-import com.tevinjeffrey.prolificlibrary.dagger.PerApplication;
-import com.tevinjeffrey.prolificlibrary.dagger.RxBus;
+import com.tevinjeffrey.prolificlibrary.dagger.annotations.RxBus;
 import com.tevinjeffrey.prolificlibrary.data.events.AddEvent;
 import com.tevinjeffrey.prolificlibrary.data.events.DeleteAllEvent;
 import com.tevinjeffrey.prolificlibrary.data.events.DeleteEvent;
@@ -9,14 +8,8 @@ import com.tevinjeffrey.prolificlibrary.data.events.UpdateEvent;
 import com.tevinjeffrey.prolificlibrary.data.model.Book;
 import com.tevinjeffrey.prolificlibrary.utils.RxUtils;
 
-import java.lang.Override;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
-
-import javax.inject.Inject;
-import javax.inject.Named;
 
 import rx.Observable;
 import rx.functions.Action0;
@@ -24,14 +17,15 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subjects.Subject;
 
-//@PerApplication
+/**
+ * Replicates the behavior of the server's CRUD operations within memory
+ * */
 public class InMemoryDataManager implements DataManager {
     private final RetroLibrary retroLibrary;
-    private Subject<Object, Object> rxBus;
+    private final Subject<Object, Object> rxBus;
 
     private List<Book> cache;
 
-//    @Inject
     public InMemoryDataManager(RetroLibrary retroLibrary, @RxBus Subject<Object, Object> rxBus) {
         this.retroLibrary = retroLibrary;
         this.rxBus = rxBus;

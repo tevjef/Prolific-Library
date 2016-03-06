@@ -1,7 +1,6 @@
 package com.tevinjeffrey.prolificlibrary.data;
 
-import com.tevinjeffrey.prolificlibrary.dagger.PerApplication;
-import com.tevinjeffrey.prolificlibrary.dagger.RxBus;
+import com.tevinjeffrey.prolificlibrary.dagger.annotations.RxBus;
 import com.tevinjeffrey.prolificlibrary.data.events.AddEvent;
 import com.tevinjeffrey.prolificlibrary.data.events.DeleteAllEvent;
 import com.tevinjeffrey.prolificlibrary.data.events.DeleteEvent;
@@ -11,9 +10,6 @@ import com.tevinjeffrey.prolificlibrary.utils.RxUtils;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import rx.Observable;
 import rx.functions.Action0;
 import rx.functions.Action1;
@@ -21,7 +17,7 @@ import rx.subjects.Subject;
 
 public class DataManagerImpl implements DataManager {
     private final RetroLibrary retroLibrary;
-    private Subject<Object, Object> rxBus;
+    private final Subject<Object, Object> rxBus;
     private final int MAX_RETRIES = 2;
     private final int RETRY_DELAY = 2000;
 

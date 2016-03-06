@@ -12,10 +12,6 @@ public abstract class BasePresenter<V extends BaseView>  {
     // reference to it.
     private WeakReference<V> mBaseView;
 
-    public void onPause() {}
-
-    public void onResume() {}
-
     @Nullable
     public V getView() {
         if (mBaseView != null)

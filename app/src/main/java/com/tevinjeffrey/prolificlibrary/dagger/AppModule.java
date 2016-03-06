@@ -1,20 +1,21 @@
 package com.tevinjeffrey.prolificlibrary.dagger;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import com.tevinjeffrey.prolificlibrary.LibraryApplication;
+import com.tevinjeffrey.prolificlibrary.dagger.annotations.PerApplication;
+import com.tevinjeffrey.prolificlibrary.dagger.annotations.RxBus;
 import com.tevinjeffrey.prolificlibrary.data.DataManager;
 import com.tevinjeffrey.prolificlibrary.data.DataManagerImpl;
 import com.tevinjeffrey.prolificlibrary.data.DateDeserializer;
-import com.tevinjeffrey.prolificlibrary.data.InMemoryDataManager;
 import com.tevinjeffrey.prolificlibrary.data.RetroLibrary;
 
 import java.util.Date;
-
-import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
@@ -24,10 +25,9 @@ import retrofit.RxJavaCallAdapterFactory;
 import rx.subjects.PublishSubject;
 import rx.subjects.SerializedSubject;
 import rx.subjects.Subject;
-import timber.log.Timber;
 
 @Module
-public class AppModule {
+class AppModule {
     private final LibraryApplication libraryApplication;
 
     public AppModule(LibraryApplication libraryApplication) {
@@ -41,7 +41,7 @@ public class AppModule {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-                Timber.tag("OkHttp").i(message);
+                Log.d("OkHttp", message);
             }
         });
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

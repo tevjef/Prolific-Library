@@ -40,88 +40,57 @@ import butterknife.OnClick;
 public class SingleBookFragment extends BottomSheetDialogFragment implements SingleBookView {
     public final static String SELECTED_BOOK = "book";
 
-    BottomSheetBehavior behavior;
-    View contentView;
-    @Bind(R.id.book_name)
-    TextView bookName;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.collapsing_toolbar)
-    CollapsingToolbarLayout collapsingToolbar;
-    @Bind(R.id.app_bar_layout)
-    AppBarLayout appBarLayout;
-    @Bind(R.id.author_text)
-    TextView authorText;
-    @Bind(R.id.author_view)
-    FrameLayout authorView;
-    @Bind(R.id.publisher_text)
-    TextView publisherText;
-    @Bind(R.id.publisher_view)
-    FrameLayout publisherView;
-    @Bind(R.id.last_checkout_text)
-    TextView lastCheckoutText;
-    @Bind(R.id.last_checkout_date)
-    TextView lastCheckoutDate;
-    @Bind(R.id.last_checkout_view)
-    FrameLayout lastCheckoutView;
-    @Bind(R.id.categories_text)
-    TextView categoriesText;
-    @Bind(R.id.categories_view)
-    FrameLayout categoriesView;
-    @Bind(R.id.fab_checkout)
-    FloatingActionButton fabCheckout;
+    @Bind(R.id.book_name) TextView bookName;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbar;
+    @Bind(R.id.app_bar_layout) AppBarLayout appBarLayout;
+    @Bind(R.id.author_text) TextView authorText;
+    @Bind(R.id.author_view) FrameLayout authorView;
+    @Bind(R.id.publisher_text) TextView publisherText;
+    @Bind(R.id.publisher_view) FrameLayout publisherView;
+    @Bind(R.id.last_checkout_text) TextView lastCheckoutText;
+    @Bind(R.id.last_checkout_date) TextView lastCheckoutDate;
+    @Bind(R.id.last_checkout_view) FrameLayout lastCheckoutView;
+    @Bind(R.id.categories_text) TextView categoriesText;
+    @Bind(R.id.categories_view) FrameLayout categoriesView;
+    @Bind(R.id.fab_checkout) FloatingActionButton fabCheckout;
+    @Inject SingleBookPresenter singleBookPresenter;
 
-    @Inject
-    SingleBookPresenter singleBookPresenter;
     private Book book;
-    DialogInterface.OnCancelListener cancelListener = new DialogInterface.OnCancelListener() {
-        @Override
-        public void onCancel(DialogInterface dialog) {
-            dismissKeyboard();
-        }
-    };
-    private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
-        @Override
-        public void onStateChanged(@NonNull View bottomSheet, int newState) {
-            if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                dismiss();
-            }
-
-        }
-
-        @Override
-        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-        }
-    };
-    private DialogInterface.OnDismissListener dismissListener = new DialogInterface.OnDismissListener() {
-        @Override
-        public void onDismiss(DialogInterface dialog) {
-            dismissKeyboard();
-        }
-    };
+    private View contentView;
 
     @Override
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
+        // Inject
         UiComponent.Initializer.init(getActivity()).inject(this);
+        // Attach
         singleBookPresenter.attachView(this);
-        contentView = View.inflate(getContext(), R.layout.bottom_sheet_content_view, null);
-        ButterKnife.bind(this, contentView);
-
+        // Inflate layout
+        contentView = View.inflate(getContext(), R.layout.fragment_single_book_content, null);
+        // Set layout
         dialog.setContentView(contentView);
+        // Bind view
+        ButterKnife.bind(this, contentView);
+        // Get data
+        book = getArguments().getParcelable(SELECTED_BOOK);
+        // Bind data
+        if (book == null) {
+            dismiss();
+            return;
+        } else {
+            setBookDetails(book);
+        }
+
+        // Wrestle view logic
         CoordinatorLayout.LayoutParams layoutParams =
                 (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();
-        behavior = (BottomSheetBehavior) layoutParams.getBehavior();
+        BottomSheetBehavior behavior = (BottomSheetBehavior) layoutParams.getBehavior();
         behavior.setBottomSheetCallback(mBottomSheetBehaviorCallback);
         behavior.setPeekHeight(Utils.getWindowHeight(getActivity()));
         behavior.setHideable(true);
 
-        book = getArguments().getParcelable(SELECTED_BOOK);
-        if (book == null) {
-            dismiss();
-            return;
-        }
+
         //http://stackoverflow.com/a/32724422/2238427
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
@@ -141,6 +110,10 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
                 }
             }
         });
+
+        appBarLayout.getLayoutParams().height = (int) (Utils.getWindowHeight(getActivity()) * .45);
+        appBarLayout.requestLayout();
+
         collapsingToolbar.setExpandedTitleColor(Color.TRANSPARENT);
         collapsingToolbar.setCollapsedTitleTextColor(Color.WHITE);
 
@@ -181,7 +154,6 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
                 dismiss();
             }
         });
-        setBookDetails(book, false);
     }
 
     @Override
@@ -191,17 +163,17 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
         ButterKnife.unbind(this);
     }
 
-    private void setBookDetails(Book book, boolean eagerly) {
-        setBookTitle(book, eagerly);
-        setAuthor(book, eagerly);
-        setPublisher(book, eagerly);
-        setLastCheckout(book, eagerly);
-        setCategories(book, eagerly);
+    private void setBookDetails(Book book) {
+        setBookTitle(book, false);
+        setAuthor(book, false);
+        setPublisher(book, false);
+        setLastCheckout(book, false);
+        setCategories(book, false);
         setLastCheckOutDate(book);
     }
 
-    private void setCategories(Book book, boolean eagerly) {
-        eagerlySetValue(eagerly, lastCheckoutText);
+    private void setCategories(Book book, boolean eager) {
+        dimView(eager, lastCheckoutText);
         categoriesText.setText(TextUtils.isEmpty(book.getCategories()) ? "No category" : book.getCategories());
     }
 
@@ -214,28 +186,28 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
         }
     }
 
-    private void setLastCheckout(Book book, boolean eagerly) {
-        eagerlySetValue(eagerly, lastCheckoutText);
+    private void setLastCheckout(Book book, boolean eager) {
+        dimView(eager, lastCheckoutText);
         lastCheckoutText.setText(TextUtils.isEmpty(book.getLastCheckedOutBy()) ? "Not yet checked out" : book.getLastCheckedOutBy());
     }
 
-    private void setPublisher(Book book, boolean eagerly) {
-        eagerlySetValue(eagerly, publisherText);
+    private void setPublisher(Book book, boolean eager) {
+        dimView(eager, publisherText);
         publisherText.setText(TextUtils.isEmpty(book.getPublisher()) ? "Unknown" : book.getPublisher());
     }
 
-    private void setAuthor(Book book, boolean eagerly) {
-        eagerlySetValue(eagerly, authorText);
+    private void setAuthor(Book book, boolean eager) {
+        dimView(eager, authorText);
         authorText.setText(TextUtils.isEmpty(book.getAuthor()) ? "Unknown" : book.getAuthor());
     }
 
-    private void setBookTitle(Book book, boolean eagerly) {
-        eagerlySetValue(eagerly, bookName);
+    private void setBookTitle(Book book, boolean eager) {
+        dimView(eager, bookName);
         bookName.setText(TextUtils.isEmpty(book.getTitle()) ? "Unknown" : book.getTitle());
     }
 
-    private void eagerlySetValue(boolean eagerly, View viewToSet) {
-        if (eagerly) {
+    private void dimView(boolean eager, View viewToSet) {
+        if (eager) {
             viewToSet.setAlpha(.5f);
         } else {
             viewToSet.setAlpha(1f);
@@ -257,16 +229,13 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
     }
 
     @Override
-    public void showLoading(boolean isLoading) { /* No loading indicator implemented */ }
-
-    @Override
     public void checkoutSuccess() {
-        setBookDetails(book, false);
+        setBookDetails(book);
     }
 
     @Override
     public void checkoutFail() {
-        setBookDetails(book, false);
+        setBookDetails(book);
     }
 
     @Override
@@ -276,24 +245,17 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
 
     @Override
     public void deleteFail() {
-        setBookDetails(book, false);
+        setBookDetails(book);
     }
 
     @Override
     public void updateFail() {
-        setBookDetails(book, false);
+        setBookDetails(book);
     }
 
     @Override
     public void updateSuccess() {
-        setBookDetails(book, false);
-    }
-
-    private void dismissKeyboard() {
-        if (contentView != null) {
-            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(contentView.getWindowToken(), 0);
-        }
+        setBookDetails(book);
     }
 
     @OnClick({R.id.author_view, R.id.publisher_view, R.id.last_checkout_view, R.id.categories_view, R.id.book_name, R.id.fab_checkout})
@@ -309,7 +271,7 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
                         .cancelListener(cancelListener)
                         .input(getResources().getString(R.string.edit_author_hint), content, new MaterialDialog.InputCallback() {
                             @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 dismissKeyboard();
                                 if (TextUtils.isEmpty(input)) return;
                                 Book updatedBook = new Book.Builder().author(input.toString()).build();
@@ -328,7 +290,7 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
                         .cancelListener(cancelListener)
                         .input(getResources().getString(R.string.edit_publisher_hint), content, new MaterialDialog.InputCallback() {
                             @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 dismissKeyboard();
                                 if (TextUtils.isEmpty(input)) return;
                                 Book updatedBook = new Book.Builder().publisher(input.toString()).build();
@@ -349,7 +311,7 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
                         .cancelListener(cancelListener)
                         .input(getResources().getString(R.string.edit_categories_hint), content, new MaterialDialog.InputCallback() {
                             @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 dismissKeyboard();
                                 if (TextUtils.isEmpty(input)) return;
                                 Book updatedBook = new Book.Builder().categories(input.toString()).build();
@@ -368,7 +330,7 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
                         .cancelListener(cancelListener)
                         .input(getResources().getString(R.string.edit_book_title_hint), content, new MaterialDialog.InputCallback() {
                             @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 dismissKeyboard();
                                 if (TextUtils.isEmpty(input)) return;
                                 Book updatedBook = new Book.Builder().title(input.toString()).build();
@@ -391,7 +353,7 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
                         })
                         .input(getResources().getString(R.string.edit_enter_name_hint), "", new MaterialDialog.InputCallback() {
                             @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                                 dismissKeyboard();
                                 if (TextUtils.isEmpty(input)) return;
                                 Book updatedBook = new Book.Builder().lastCheckedOutBy(input.toString()).build();
@@ -402,4 +364,39 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
                 break;
         }
     }
+
+    private void dismissKeyboard() {
+        if (contentView != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(contentView.getWindowToken(), 0);
+        }
+    }
+
+    final DialogInterface.OnCancelListener cancelListener = new DialogInterface.OnCancelListener() {
+        @Override
+        public void onCancel(DialogInterface dialog) {
+            dismissKeyboard();
+        }
+    };
+    private final BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
+        @Override
+        public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                dismiss();
+            }
+
+        }
+
+        @Override
+        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+        }
+    };
+    private final DialogInterface.OnDismissListener dismissListener = new DialogInterface.OnDismissListener() {
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            dismissKeyboard();
+        }
+    };
+
 }

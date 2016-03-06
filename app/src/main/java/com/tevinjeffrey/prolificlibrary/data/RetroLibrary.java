@@ -5,14 +5,12 @@ import com.tevinjeffrey.prolificlibrary.data.model.Book;
 import java.util.List;
 import java.util.Map;
 
-import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
-import retrofit.http.PartMap;
 import retrofit.http.Path;
 import rx.Observable;
 

@@ -3,6 +3,7 @@ package com.tevinjeffrey.prolificlibrary.dagger;
 import android.app.Activity;
 
 import com.tevinjeffrey.prolificlibrary.LibraryApplication;
+import com.tevinjeffrey.prolificlibrary.dagger.annotations.PerActivity;
 import com.tevinjeffrey.prolificlibrary.ui.BooksActivity;
 import com.tevinjeffrey.prolificlibrary.ui.NewBookActivity;
 import com.tevinjeffrey.prolificlibrary.ui.SingleBookFragment;

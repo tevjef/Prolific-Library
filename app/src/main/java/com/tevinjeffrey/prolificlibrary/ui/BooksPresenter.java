@@ -1,7 +1,7 @@
 package com.tevinjeffrey.prolificlibrary.ui;
 
-import com.tevinjeffrey.prolificlibrary.dagger.PerActivity;
-import com.tevinjeffrey.prolificlibrary.dagger.RxBus;
+import com.tevinjeffrey.prolificlibrary.dagger.annotations.PerActivity;
+import com.tevinjeffrey.prolificlibrary.dagger.annotations.RxBus;
 import com.tevinjeffrey.prolificlibrary.data.DataManager;
 import com.tevinjeffrey.prolificlibrary.data.events.AddEvent;
 import com.tevinjeffrey.prolificlibrary.data.events.DeleteAllEvent;
@@ -9,7 +9,6 @@ import com.tevinjeffrey.prolificlibrary.data.events.DeleteEvent;
 import com.tevinjeffrey.prolificlibrary.data.events.UpdateEvent;
 import com.tevinjeffrey.prolificlibrary.data.model.Book;
 import com.tevinjeffrey.prolificlibrary.ui.base.BasePresenter;
-import com.tevinjeffrey.prolificlibrary.ui.base.BaseView;
 import com.tevinjeffrey.prolificlibrary.ui.base.BaseView.LayoutType;
 import com.tevinjeffrey.prolificlibrary.utils.RxUtils;
 
@@ -27,7 +26,7 @@ import rx.subjects.Subject;
 @PerActivity
 public class BooksPresenter extends BasePresenter<BooksView> {
     private final DataManager dataManager;
-    private Subject<Object, Object> rxBus;
+    private final Subject<Object, Object> rxBus;
     private Subscription subscription;
     private Subscription busSubscription;
 
@@ -37,9 +36,9 @@ public class BooksPresenter extends BasePresenter<BooksView> {
         this.rxBus = rxBus;
     }
 
-    public void loadData(boolean showLoading) {
+    public void loadData() {
         if (getView() != null) {
-            getView().showLoading(showLoading);
+            getView().showLoading(true);
         }
 
         RxUtils.unsubscribeIfNotNull(subscription);

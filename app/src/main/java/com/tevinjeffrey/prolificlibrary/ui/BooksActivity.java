@@ -34,17 +34,14 @@ import static android.view.View.VISIBLE;
 
 public class BooksActivity extends BaseActivity implements BooksView, ItemClickListener<Book,View> {
 
-    @Inject
-    BooksPresenter booksPresenter;
-
+    @Inject BooksPresenter booksPresenter;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.booksList) RecyclerView booksList;
+    @Bind(R.id.booksList) RecyclerView recyclerView;
     @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.empty_view) LinearLayout emptyView;
     @Bind(R.id.fab) FloatingActionButton fab;
-
-    List<Book> dataSet = new ArrayList<>();
-    Snackbar snackbar;
+    private List<Book> bookDataSet = new ArrayList<>();
+    private Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,28 +49,31 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
         setContentView(R.layout.activity_books);
         ButterKnife.bind(this);
 
+        // Initialize toolbar
         setSupportActionBar(toolbar);
         toolbar.setTitle(getString(R.string.app_name));
         toolbar.setNavigationIcon(R.drawable.ic_prolificp);
 
-        booksList.setLayoutManager(new LinearLayoutManager(this));
-        booksList.setHasFixedSize(true);
+        // Initialize RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
 
-        if (dataSet == null) {
-            dataSet = new ArrayList<>();
+        if (bookDataSet == null) {
+            bookDataSet = new ArrayList<>();
         }
 
-        if (booksList.getAdapter() == null) {
-            booksList.setAdapter(new BooksAdapter(dataSet, this));
+        if (recyclerView.getAdapter() == null) {
+            recyclerView.setAdapter(new BooksAdapter(bookDataSet, this));
         }
 
         showLayout(LayoutType.EMPTY);
 
+        // Initialize data
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                booksPresenter.loadData(true);
+                booksPresenter.loadData();
             }
         });
 
@@ -88,28 +88,7 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
     @Override
     protected void onResume() {
         super.onResume();
-        booksPresenter.loadData(true);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_books, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_delete_all:
-                booksPresenter.deleteAll();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+        booksPresenter.loadData();
     }
 
     @Override
@@ -143,8 +122,8 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
     }
 
     private void showRecyclerView(int visibility) {
-        if (booksList.getVisibility() != visibility)
-            booksList.setVisibility(visibility);
+        if (recyclerView.getVisibility() != visibility)
+            recyclerView.setVisibility(visibility);
     }
 
 
@@ -153,35 +132,35 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
         if (snackbar != null  && snackbar.isShownOrQueued()) {
             snackbar.dismiss();
         }
-        dataSet.clear();
-        dataSet.addAll(books);
-        booksList.getAdapter().notifyDataSetChanged();
+        bookDataSet.clear();
+        bookDataSet.addAll(books);
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 
     @Override
     public void addBook(Book book) {
-        dataSet.add(book);
-        booksList.getAdapter().notifyDataSetChanged();
+        bookDataSet.add(book);
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 
     @Override
     public void updateBook(Book updatedBook) {
-        int indexOf = dataSet.indexOf(updatedBook);
-        dataSet.set(indexOf, updatedBook);
-        booksList.getAdapter().notifyItemChanged(indexOf);
+        int indexOf = bookDataSet.indexOf(updatedBook);
+        bookDataSet.set(indexOf, updatedBook);
+        recyclerView.getAdapter().notifyItemChanged(indexOf);
     }
 
     @Override
     public void deleteBook(int id) {
-        int indexOf = dataSet.indexOf(new Book.Builder().id(id).build());
-        dataSet.remove(indexOf);
-        booksList.getAdapter().notifyItemRemoved(indexOf);
+        int indexOf = bookDataSet.indexOf(new Book.Builder().id(id).build());
+        bookDataSet.remove(indexOf);
+        recyclerView.getAdapter().notifyItemRemoved(indexOf);
     }
 
     @Override
     public void deleteAllBooks() {
-        dataSet.clear();
-        booksList.getAdapter().notifyDataSetChanged();
+        bookDataSet.clear();
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -203,6 +182,23 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
         bundle.putParcelable(SingleBookFragment.SELECTED_BOOK, data);
         bottomSheetDialogFragment.setArguments(bundle);
         bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_books, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_delete_all:
+                booksPresenter.deleteAll();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
