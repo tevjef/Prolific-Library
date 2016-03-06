@@ -3,11 +3,14 @@ package com.tevinjeffrey.prolificlibrary.ui;
 import com.tevinjeffrey.prolificlibrary.dagger.PerActivity;
 import com.tevinjeffrey.prolificlibrary.dagger.RxBus;
 import com.tevinjeffrey.prolificlibrary.data.DataManager;
+import com.tevinjeffrey.prolificlibrary.data.events.AddEvent;
 import com.tevinjeffrey.prolificlibrary.data.events.DeleteAllEvent;
 import com.tevinjeffrey.prolificlibrary.data.events.DeleteEvent;
 import com.tevinjeffrey.prolificlibrary.data.events.UpdateEvent;
 import com.tevinjeffrey.prolificlibrary.data.model.Book;
 import com.tevinjeffrey.prolificlibrary.ui.base.BasePresenter;
+import com.tevinjeffrey.prolificlibrary.ui.base.BaseView;
+import com.tevinjeffrey.prolificlibrary.ui.base.BaseView.LayoutType;
 import com.tevinjeffrey.prolificlibrary.utils.RxUtils;
 
 import java.util.List;
@@ -62,15 +65,20 @@ public class BooksPresenter extends BasePresenter<BooksView> {
                      @Override
                     public void onNext(List<Book> books) {
                          if (getView() != null) {
+                             if (books.size() == 0) {
+                                 getView().showLayout(LayoutType.EMPTY);
+                             } else {
+                                 getView().showLayout(LayoutType.NORMAL);
+                             }
                              getView().setData(books);
                          }
                     }
                 });
     }
 
-    public void deleteAll(boolean showLoading) {
+    public void deleteAll() {
         if (getView() != null) {
-            getView().showLoading(showLoading);
+            getView().showLoading(true);
         }
 
         RxUtils.unsubscribeIfNotNull(subscription);
@@ -82,6 +90,7 @@ public class BooksPresenter extends BasePresenter<BooksView> {
                     public void onCompleted() {
                         if (getView() != null) {
                             getView().showLoading(false);
+                            getView().showLayout(LayoutType.EMPTY);
                         }
                     }
 
@@ -101,20 +110,22 @@ public class BooksPresenter extends BasePresenter<BooksView> {
 
     @Override
     public BooksView attachView(final BooksView view) {
-        busSubscription = rxBus.subscribe(new Action1<Object>() {
-            @Override
-            public void call(Object o) {
-                if (o instanceof UpdateEvent) {
-                    view.updateBook(((UpdateEvent) o).getBook());
-                }
-                if (o instanceof DeleteEvent) {
-                    view.deleteBook(((DeleteEvent) o).getId());
-                }
-                if (o instanceof DeleteAllEvent) {
-                    view.deleteAllBooks();
-                }
-            }
-        });
+        busSubscription = rxBus
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Object>() {
+                    @Override
+                    public void call(Object o) {
+                        if (o instanceof UpdateEvent) {
+                            view.updateBook(((UpdateEvent) o).getBook());
+                        } else if (o instanceof DeleteEvent) {
+                            view.deleteBook(((DeleteEvent) o).getId());
+                        } else if (o instanceof DeleteAllEvent) {
+                            view.deleteAllBooks();
+                        } else if (o instanceof AddEvent) {
+                            view.addBook(((AddEvent) o).getBook());
+                        }
+                    }
+                });
         return super.attachView(view);
     }
 

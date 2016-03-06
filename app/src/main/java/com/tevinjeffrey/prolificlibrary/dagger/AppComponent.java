@@ -1,7 +1,10 @@
 package com.tevinjeffrey.prolificlibrary.dagger;
 
+import com.tevinjeffrey.prolificlibrary.BuildConfig;
 import com.tevinjeffrey.prolificlibrary.LibraryApplication;
 import com.tevinjeffrey.prolificlibrary.data.DataManager;
+
+import javax.inject.Named;
 
 import dagger.Component;
 import rx.subjects.Subject;

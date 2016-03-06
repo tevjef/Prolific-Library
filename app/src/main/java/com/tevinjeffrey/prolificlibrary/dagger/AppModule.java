@@ -6,7 +6,10 @@ import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import com.tevinjeffrey.prolificlibrary.LibraryApplication;
+import com.tevinjeffrey.prolificlibrary.data.DataManager;
+import com.tevinjeffrey.prolificlibrary.data.DataManagerImpl;
 import com.tevinjeffrey.prolificlibrary.data.DateDeserializer;
+import com.tevinjeffrey.prolificlibrary.data.InMemoryDataManager;
 import com.tevinjeffrey.prolificlibrary.data.RetroLibrary;
 
 import java.util.Date;
@@ -44,6 +47,12 @@ public class AppModule {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         client.interceptors().add(interceptor);
         return client;
+    }
+
+    @Provides
+    @PerApplication
+    public DataManager providesDataManager(RetroLibrary retroLibrary, @RxBus Subject<Object, Object> rxBus) {
+        return new DataManagerImpl(retroLibrary, rxBus);
     }
 
     @Provides

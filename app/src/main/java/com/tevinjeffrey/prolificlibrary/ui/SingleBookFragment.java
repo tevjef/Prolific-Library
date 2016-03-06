@@ -149,7 +149,7 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_delete:
+                    case R.id.action_delete_all:
                         new MaterialDialog.Builder(getActivity())
                                 .title(R.string.are_you_sure)
                                 .positiveText(R.string.agree)
@@ -202,11 +202,11 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
 
     private void setCategories(Book book, boolean eagerly) {
         eagerlySetValue(eagerly, lastCheckoutText);
-        categoriesText.setText(book.getCategories() == null ? "No category" : book.getCategories());
+        categoriesText.setText(TextUtils.isEmpty(book.getCategories()) ? "No category" : book.getCategories());
     }
 
     private void setLastCheckOutDate(Book book) {
-        if (book.getLastCheckedOutString() == null) {
+        if (TextUtils.isEmpty(book.getLastCheckedOutString())) {
             lastCheckoutDate.setVisibility(View.GONE);
         } else {
             lastCheckoutDate.setVisibility(View.VISIBLE);
@@ -216,22 +216,22 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
 
     private void setLastCheckout(Book book, boolean eagerly) {
         eagerlySetValue(eagerly, lastCheckoutText);
-        lastCheckoutText.setText(book.getLastCheckedOutBy() == null ? "Not yet checked out" : book.getLastCheckedOutBy());
+        lastCheckoutText.setText(TextUtils.isEmpty(book.getLastCheckedOutBy()) ? "Not yet checked out" : book.getLastCheckedOutBy());
     }
 
     private void setPublisher(Book book, boolean eagerly) {
         eagerlySetValue(eagerly, publisherText);
-        publisherText.setText(book.getPublisher() == null ? "Unknown" : book.getPublisher());
+        publisherText.setText(TextUtils.isEmpty(book.getPublisher()) ? "Unknown" : book.getPublisher());
     }
 
     private void setAuthor(Book book, boolean eagerly) {
         eagerlySetValue(eagerly, authorText);
-        authorText.setText(book.getAuthor() == null ? "Unknown" : book.getAuthor());
+        authorText.setText(TextUtils.isEmpty(book.getAuthor()) ? "Unknown" : book.getAuthor());
     }
 
     private void setBookTitle(Book book, boolean eagerly) {
         eagerlySetValue(eagerly, bookName);
-        bookName.setText(book.getTitle() == null ? "Unknown" : book.getTitle());
+        bookName.setText(TextUtils.isEmpty(book.getTitle()) ? "Unknown" : book.getTitle());
     }
 
     private void eagerlySetValue(boolean eagerly, View viewToSet) {
@@ -276,7 +276,7 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
 
     @Override
     public void deleteFail() {
-        dismiss();
+        setBookDetails(book, false);
     }
 
     @Override
@@ -383,6 +383,12 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
                         .inputType(InputType.TYPE_CLASS_TEXT)
                         .dismissListener(dismissListener)
                         .cancelListener(cancelListener)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dismissKeyboard();
+                            }
+                        })
                         .input(getResources().getString(R.string.edit_enter_name_hint), "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {

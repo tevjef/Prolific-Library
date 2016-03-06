@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.BooksActivity" >
-    <item android:id="@+id/action_delete"
+    <item android:id="@+id/action_delete_all"
         android:title="@string/action_delete_all"
         android:orderInCategory="100"
         app:showAsAction="never" />
