@@ -54,10 +54,6 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
         toolbar.setTitle(getString(R.string.app_name));
         toolbar.setNavigationIcon(R.drawable.ic_prolificp);
 
-        // Initialize RecyclerView
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-
         if (bookDataSet == null) {
             bookDataSet = new ArrayList<>();
         }
