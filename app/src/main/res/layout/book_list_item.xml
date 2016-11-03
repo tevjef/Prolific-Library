@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:padding="16dp"
-    android:background="?attr/selectableItemBackground"
-    android:layout_height="72dp">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Secret Seven"
-        android:id="@+id/book_title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:singleLine="true" />
+    android:layout_height="72dp"
+    android:background="?attr/selectableItemBackground">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="Enid Blyton"
-        android:id="@+id/book_author"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:layout_marginTop="4dp"/>
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Secret Seven"
+            android:id="@+id/book_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:maxLines="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Enid Blyton"
+            android:id="@+id/book_author"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:layout_marginTop="4dp"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:background="@color/divider" />
+
+</FrameLayout>
