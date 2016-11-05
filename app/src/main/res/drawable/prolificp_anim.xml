@@ -1,0 +1,57 @@
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:width="24dp"
+            android:height="24dp"
+            android:viewportWidth="82"
+            android:viewportHeight="82">
+            <path
+                android:name="dot"
+                android:pathData="M 12.909 46.985 C 21.178 45.636 20.79 33.624 11.818 33.786 C 11.179 33.934 10.539 34.084 9.897 34.235 C 8.312 34.885 6.898 36.242 6.247 37.823 C 4.395 42.297 8.212 47.751 12.909 46.985 Z"
+                android:fillColor="#ffffffff"
+                android:strokeColor="#ffffffff"
+                android:strokeAlpha="0"
+                android:strokeLineCap="butt"
+                android:strokeLineJoin="miter"
+                android:strokeMiterLimit="10"/>
+            <path
+                android:name="prolificp"
+                android:pathData="M 10.69 76.595 C 10.69 76.595 21.401 79.8 25.847 70.727 C 28.87 64.556 29.415 55.328 31.676 33.784 C 33.174 19.505 35.023 6.34 50.342 4.966 C 63.746 3.764 73.466 16.427 72.014 25.743 C 70.014 38.576 60.675 41.873 41.597 40.421"
+                android:strokeColor="#ffffffff"
+                android:strokeWidth="10"
+                android:strokeLineCap="butt"
+                android:strokeLineJoin="miter"
+                android:strokeMiterLimit="10"/>
+        </vector>
+    </aapt:attr>
+    <target android:name="prolificp">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:name="prolificp"
+                android:propertyName="trimPathStart"
+                android:duration="1452"
+                android:valueFrom="1"
+                android:valueTo="0"
+                android:valueType="floatType"
+                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+        </aapt:attr>
+    </target>
+    <target android:name="dot">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:name="dot"
+                android:propertyName="fillAlpha"
+                android:startOffset="1209"
+                android:duration="791"
+                android:valueFrom="0"
+                android:valueTo="1"
+                android:valueType="floatType"
+                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+        </aapt:attr>
+    </target>
+</animated-vector>
