@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:contentScrim="@color/colorPrimary"
-                app:paddingStart="72dp"
+                app:paddingStart="@dimen/inset_keyline"
                 android:background="?attr/selectableItemBackground"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -42,8 +42,8 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textColor="@android:color/white"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginStart="72dp"
-                    android:layout_marginLeft="72dp"
+                    android:layout_marginStart="@dimen/inset_keyline"
+                    android:layout_marginLeft="@dimen/inset_keyline"
                     android:layout_marginRight="32dp"
                     android:layout_marginEnd="32dp"
                     android:layout_marginBottom="24dp"
@@ -80,7 +80,7 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="72dp"
+                    android:layout_height="@dimen/item_height"
                     android:id="@+id/author_view"
                     android:background="?attr/selectableItemBackground"
                     android:layout_gravity="center">
@@ -97,8 +97,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="72dp"
-                        android:layout_marginLeft="72dp"
+                        android:layout_marginStart="@dimen/inset_keyline"
+                        android:layout_marginLeft="@dimen/inset_keyline"
                         android:orientation="vertical">
                         <TextView
                             android:layout_width="wrap_content"
@@ -118,7 +118,7 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="72dp"
+                    android:layout_height="@dimen/item_height"
                     android:id="@+id/publisher_view"
                     android:background="?attr/selectableItemBackground"
                     android:layout_gravity="center">
@@ -128,8 +128,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="72dp"
-                        android:layout_marginLeft="72dp"
+                        android:layout_marginStart="@dimen/inset_keyline"
+                        android:layout_marginLeft="@dimen/inset_keyline"
                         android:orientation="vertical">
                         <TextView
                             android:layout_width="wrap_content"
@@ -149,15 +149,15 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginStart="72dp"
-                    android:layout_marginLeft="72dp"
+                    android:layout_marginStart="@dimen/inset_keyline"
+                    android:layout_marginLeft="@dimen/inset_keyline"
                     android:layout_marginTop="@dimen/content_area_space"
                     android:layout_marginBottom="@dimen/content_area_space"
                     android:background="@color/divider" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="72dp"
+                    android:layout_height="@dimen/item_height"
                     android:id="@+id/last_checkout_view"
                     android:background="?attr/selectableItemBackground"
                     android:layout_gravity="center">
@@ -175,8 +175,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="72dp"
-                        android:layout_marginLeft="72dp"
+                        android:layout_marginStart="@dimen/inset_keyline"
+                        android:layout_marginLeft="@dimen/inset_keyline"
                         android:animateLayoutChanges="true"
                         android:orientation="vertical">
                         <TextView
@@ -198,15 +198,15 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginStart="72dp"
-                    android:layout_marginLeft="72dp"
+                    android:layout_marginStart="@dimen/inset_keyline"
+                    android:layout_marginLeft="@dimen/inset_keyline"
                     android:layout_marginTop="@dimen/content_area_space"
                     android:layout_marginBottom="@dimen/content_area_space"
                     android:background="@color/divider" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="72dp"
+                    android:layout_height="@dimen/item_height"
                     android:id="@+id/categories_view"
                     android:background="?attr/selectableItemBackground"
                     android:layout_gravity="center">
@@ -224,8 +224,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="72dp"
-                        android:layout_marginLeft="72dp"
+                        android:layout_marginStart="@dimen/inset_keyline"
+                        android:layout_marginLeft="@dimen/inset_keyline"
                         android:orientation="vertical">
                         <TextView
                             android:layout_width="wrap_content"

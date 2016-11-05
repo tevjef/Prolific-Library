@@ -3,10 +3,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="start_keyline">60dp</dimen>
-    <dimen name="default_margin">12dp</dimen>
     <dimen name="card_margin">16dp</dimen>
     <dimen name="content_area_space">8dp</dimen>
+    <dimen name="inset_keyline">72dp</dimen>
+    <dimen name="item_height">72dp</dimen>
     <dimen name="list_item_width">240dp</dimen>
-
 </resources>
