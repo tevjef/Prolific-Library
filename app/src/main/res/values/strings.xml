@@ -22,12 +22,17 @@
     <string name="edit_publisher_hint">e.g Pearson</string>
     <string name="edit_categories">Add categories</string>
     <string name="edit_categories_hint">e.g android, ios, programming</string>
-    <string name="edit_book_title">Add  book title</string>
+    <string name="edit_book_title">Add book title</string>
     <string name="edit_book_title_hint">e.g Effective Java</string>
     <string name="progress_dialog">Updating</string>
     <string name="please_wait">Please wait</string>
     <string name="enter_name">Checkout with name</string>
     <string name="edit_enter_name_hint">e.g Chet Haase</string>
+
+    <string name="shortcut_short_add_new_book">New book</string>
+    <string name="shortcut_long_add_new_book">Add a new book</string>
+    <string name="shortcut_disabled_add_new_book">Add a new book</string>
+
     <string name="check_internet_connection">Please check internet connection</string>
     <string name="failed_network_request">Could not complete request</string>
     <string name="book_title_required">The book title is required</string>
@@ -35,5 +40,4 @@
     <string name="no_category">No category</string>
     <string name="not_checkedout">Not yet checked out</string>
     <string name="unknown">Unknown</string>
-
 </resources>
