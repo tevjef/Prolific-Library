@@ -64,10 +64,6 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
             bookDataSet = savedInstanceState.getParcelableArrayList(STATE_BOOK_LIST);
         }
 
-        // Initialize RecyclerView
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
-
         if (bookDataSet == null) {
             bookDataSet = new ArrayList<>();
         }
