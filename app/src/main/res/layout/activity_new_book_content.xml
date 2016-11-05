@@ -1,116 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:ignore="RtlCompat,RtlSymmetry,MissingPrefix"
     tools:showIn="@layout/activity_new_book">
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
+
+    <ImageView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:srcCompat="@drawable/ic_prolific_book_105dp"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="16dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:id="@+id/imageView" />
+
+    <EditText
+        android:id="@+id/book_name_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:hint="@string/book_title"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:nextFocusDown="@+id/book_author_edit"
+        android:textColorHint="@color/text_hint_dark"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <EditText
+        android:id="@+id/book_author_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:hint="@string/author"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:nextFocusDown="@+id/book_publisher_edit"
+        android:textColorHint="@color/text_hint_dark"
+        app:layout_constraintRight_toRightOf="@+id/book_name_edit"
+        app:layout_constraintLeft_toLeftOf="@+id/book_name_edit"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/book_name_edit" />
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/content_area_space">
+    <EditText
+        android:id="@+id/book_publisher_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:hint="@string/publisher"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:nextFocusDown="@+id/book_categories_edit"
+        android:textColorHint="@color/text_hint_dark"
+        app:layout_constraintRight_toRightOf="@+id/book_author_edit"
+        app:layout_constraintLeft_toLeftOf="@+id/book_author_edit"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/book_author_edit" />
+
+    <EditText
+        android:id="@+id/book_categories_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:hint="@string/categories"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:textColorHint="@color/text_hint_dark"
+        app:layout_constraintLeft_toLeftOf="@+id/book_publisher_edit"
+        app:layout_constraintRight_toRightOf="@+id/book_publisher_edit"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/book_publisher_edit" />
 
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="16dp"
-                app:srcCompat="@drawable/ic_prolific_book_105dp" />
-
-            <FrameLayout
-                android:id="@+id/title_view"
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:layout_gravity="center"
-                android:paddingEnd="16dp">
-
-                <EditText
-                    android:id="@+id/book_name_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:hint="@string/book_title"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:nextFocusDown="@+id/book_author_edit"
-                    android:textColorHint="@color/text_hint_dark" />
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/author_view"
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:layout_gravity="center"
-                android:paddingEnd="16dp">
-
-                <EditText
-                    android:id="@+id/book_author_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:hint="@string/author"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:nextFocusDown="@+id/book_publisher_edit"
-                    android:textColorHint="@color/text_hint_dark" />
-            </FrameLayout>
-
-
-            <FrameLayout
-                android:id="@+id/publisher_view"
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:layout_gravity="center"
-                android:paddingEnd="16dp">
-
-                <EditText
-                    android:id="@+id/book_publisher_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:hint="@string/publisher"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:nextFocusDown="@+id/book_categories_edit"
-                    android:textColorHint="@color/text_hint_dark" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/categories_view"
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:layout_gravity="center">
-
-                <EditText
-                    android:id="@+id/book_categories_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:hint="@string/categories"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
-                    android:textColorHint="@color/text_hint_dark" />
-            </FrameLayout>
-
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
