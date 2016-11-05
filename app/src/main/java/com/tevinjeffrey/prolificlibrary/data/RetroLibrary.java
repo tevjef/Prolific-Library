@@ -33,6 +33,6 @@ public interface RetroLibrary {
     @DELETE(apiKey + "/books/{id}/")
     Observable<Void> deleteBook(@Path("id") int bookId);
 
-    @DELETE(apiKey + "/clear/")
+    @DELETE(apiKey + "/clean/")
     Observable<Void> clearBooks();
 }
