@@ -33,4 +33,11 @@
     <string name="shortcut_long_add_new_book">Add a new book</string>
     <string name="shortcut_disabled_add_new_book">Add a new book</string>
 
+    <string name="check_internet_connection">Please check internet connection</string>
+    <string name="failed_network_request">Could not complete request</string>
+    <string name="book_title_required">The book title is required</string>
+    <string name="checkout_time">Checked out: %s</string>
+    <string name="no_category">No category</string>
+    <string name="not_checkedout">Not yet checked out</string>
+    <string name="unknown">Unknown</string>
 </resources>

@@ -1,10 +1,14 @@
 package com.tevinjeffrey.prolificlibrary.ui;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,27 +36,33 @@ import butterknife.ButterKnife;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class BooksActivity extends BaseActivity implements BooksView, ItemClickListener<Book,View> {
+public class BooksActivity extends BaseActivity implements BooksView, ItemClickListener<Book, View> {
 
-    @Inject BooksPresenter booksPresenter;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.booksList) RecyclerView recyclerView;
-    @Bind(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
-    @Bind(R.id.empty_view) LinearLayout emptyView;
-    @Bind(R.id.fab) FloatingActionButton fab;
-    private List<Book> bookDataSet = new ArrayList<>();
+    private static final String STATE_BOOK_LIST = "com.tevinjeffrey.prolificlibrary.ui.BooksActivity.bookDataSet";
+
+    @Inject
+    BooksPresenter booksPresenter;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    @Bind(R.id.booksList)
+    RecyclerView recyclerView;
+    @Bind(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.empty_view)
+    LinearLayout emptyView;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
+    private ArrayList<Book> bookDataSet = new ArrayList<>();
     private Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_books);
-        ButterKnife.bind(this);
 
-        // Initialize toolbar
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getString(R.string.app_name));
-        toolbar.setNavigationIcon(R.drawable.ic_prolificp);
+        // Restore state book list
+        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_BOOK_LIST)) {
+            bookDataSet = savedInstanceState.getParcelableArrayList(STATE_BOOK_LIST);
+        }
 
         // Initialize RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -66,7 +76,7 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
             recyclerView.setAdapter(new BooksAdapter(bookDataSet, this));
         }
 
-        showLayout(LayoutType.EMPTY);
+        showLayout(LayoutType.NORMAL);
 
         // Initialize data
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent);
@@ -94,9 +104,9 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
     @Override
     public void showError(Throwable e) {
         if (e instanceof UnknownHostException) {
-            snackbar = Snackbar.make(fab, "Please check internet connection", Snackbar.LENGTH_INDEFINITE);
+            snackbar = Snackbar.make(fab, R.string.check_internet_connection, Snackbar.LENGTH_INDEFINITE);
         } else {
-            snackbar = Snackbar.make(fab, "Could not complete request", Snackbar.LENGTH_INDEFINITE);
+            snackbar = Snackbar.make(fab, R.string.failed_network_request, Snackbar.LENGTH_INDEFINITE);
         }
         snackbar.show();
     }
@@ -117,19 +127,21 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
     }
 
     private void showEmptyLayout(int visibility) {
-        if (emptyView.getVisibility() != visibility)
+        if (emptyView.getVisibility() != visibility) {
             emptyView.setVisibility(visibility);
+        }
     }
 
     private void showRecyclerView(int visibility) {
-        if (recyclerView.getVisibility() != visibility)
+        if (recyclerView.getVisibility() != visibility) {
             recyclerView.setVisibility(visibility);
+        }
     }
 
 
     @Override
     public void setData(List<Book> books) {
-        if (snackbar != null  && snackbar.isShownOrQueued()) {
+        if (snackbar != null && snackbar.isShownOrQueued()) {
             snackbar.dismiss();
         }
         bookDataSet.clear();
@@ -202,8 +214,47 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(STATE_BOOK_LIST, bookDataSet);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void injectTargets() {
+        ButterKnife.bind(this);
         UiComponent.Initializer.init(this).inject(this);
+    }
+
+    AnimatedVectorDrawable prolificDrawable;
+
+    @Override
+    protected void setupToolbar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            prolificDrawable = (AnimatedVectorDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.prolificp_anim, null);
+            toolbar.setNavigationIcon(prolificDrawable);
+
+        } else {
+            toolbar.setNavigationIcon(R.drawable.ic_prolificp);
+        }
+        // Initialize toolbar
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(getString(R.string.app_name));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    if (!prolificDrawable.isRunning()) {
+                        prolificDrawable.start();
+                    }
+                }
+            }
+        });
+
+    }
+
+    @Override
+    protected void setLayoutId() {
+        layoutId = R.layout.activity_books;
     }
 
     @Override

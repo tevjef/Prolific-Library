@@ -35,12 +35,9 @@ public class NewBookActivity extends BaseActivity implements NewBookView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_book);
-        ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,7 +47,7 @@ public class NewBookActivity extends BaseActivity implements NewBookView {
                         .publisher(bookPublisherEdit.getText().toString());
 
                 if(TextUtils.isEmpty(bookNameEdit.getText().toString())) {
-                    Toast.makeText(NewBookActivity.this, "The book title is required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewBookActivity.this, R.string.book_title_required, Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     newBook.title(bookNameEdit.getText().toString());
@@ -75,7 +72,19 @@ public class NewBookActivity extends BaseActivity implements NewBookView {
 
     @Override
     protected void injectTargets() {
+        ButterKnife.bind(this);
         UiComponent.Initializer.init(this).inject(this);
+    }
+
+    @Override
+    protected void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    protected void setLayoutId() {
+        layoutId = R.layout.activity_new_book;
     }
 
     @OnClick({R.id.book_name_edit, R.id.book_author_edit, R.id.book_publisher_edit, R.id.book_categories_edit, R.id.fab})
@@ -90,9 +99,9 @@ public class NewBookActivity extends BaseActivity implements NewBookView {
     @Override
     public void showError(Throwable e) {
         if (e instanceof UnknownHostException) {
-            Toast.makeText(this, "Please check internet connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.check_internet_connection, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Could not complete request", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.failed_network_request, Toast.LENGTH_SHORT).show();
         }
     }
 
