@@ -18,14 +18,17 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
         <activity
             android:name=".ui.NewBookActivity"
             android:label="@string/title_activity_new_book"
             android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTop"
             android:parentActivityName=".ui.BooksActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

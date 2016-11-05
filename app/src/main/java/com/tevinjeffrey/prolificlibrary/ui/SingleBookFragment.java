@@ -174,7 +174,7 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
 
     private void setCategories(Book book, boolean eager) {
         dimView(eager, lastCheckoutText);
-        categoriesText.setText(TextUtils.isEmpty(book.getCategories()) ? "No category" : book.getCategories());
+        categoriesText.setText(TextUtils.isEmpty(book.getCategories()) ? getString(R.string.no_category) : book.getCategories());
     }
 
     private void setLastCheckOutDate(Book book) {
@@ -182,28 +182,28 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
             lastCheckoutDate.setVisibility(View.GONE);
         } else {
             lastCheckoutDate.setVisibility(View.VISIBLE);
-            lastCheckoutDate.setText("Checked out: " + book.getLastCheckedOutString());
+            lastCheckoutDate.setText(getString(R.string.checkout_time, book.getLastCheckedOutString()));
         }
     }
 
     private void setLastCheckout(Book book, boolean eager) {
         dimView(eager, lastCheckoutText);
-        lastCheckoutText.setText(TextUtils.isEmpty(book.getLastCheckedOutBy()) ? "Not yet checked out" : book.getLastCheckedOutBy());
+        lastCheckoutText.setText(TextUtils.isEmpty(book.getLastCheckedOutBy()) ? getString(R.string.not_checkedout) : book.getLastCheckedOutBy());
     }
 
     private void setPublisher(Book book, boolean eager) {
         dimView(eager, publisherText);
-        publisherText.setText(TextUtils.isEmpty(book.getPublisher()) ? "Unknown" : book.getPublisher());
+        publisherText.setText(TextUtils.isEmpty(book.getPublisher()) ? getString(R.string.unknown) : book.getPublisher());
     }
 
     private void setAuthor(Book book, boolean eager) {
         dimView(eager, authorText);
-        authorText.setText(TextUtils.isEmpty(book.getAuthor()) ? "Unknown" : book.getAuthor());
+        authorText.setText(TextUtils.isEmpty(book.getAuthor()) ? getString(R.string.unknown) : book.getAuthor());
     }
 
     private void setBookTitle(Book book, boolean eager) {
         dimView(eager, bookName);
-        bookName.setText(TextUtils.isEmpty(book.getTitle()) ? "Unknown" : book.getTitle());
+        bookName.setText(TextUtils.isEmpty(book.getTitle()) ? getString(R.string.unknown) : book.getTitle());
     }
 
     private void dimView(boolean eager, View viewToSet) {
@@ -217,9 +217,9 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
     @Override
     public void showError(Throwable e) {
         if (e instanceof UnknownHostException) {
-            Toast.makeText(getActivity(), "Please check internet connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.check_internet_connection, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getActivity(), "Could not complete request", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.failed_network_request, Toast.LENGTH_SHORT).show();
         }
     }
 

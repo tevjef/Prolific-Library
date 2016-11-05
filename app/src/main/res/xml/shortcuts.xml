@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_add"
+        android:shortcutDisabledMessage="@string/shortcut_disabled_add_new_book"
+        android:shortcutId="add_new_book"
+        android:shortcutLongLabel="@string/shortcut_long_add_new_book"
+        android:shortcutShortLabel="@string/shortcut_short_add_new_book">
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetClass="com.tevinjeffrey.prolificlibrary.ui.BooksActivity"
+            android:targetPackage="com.tevinjeffrey.prolificlibrary" />
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.tevinjeffrey.prolificlibrary.ui.NewBookActivity"
+            android:targetPackage="com.tevinjeffrey.prolificlibrary" />
+    </shortcut>
+
+</shortcuts>
+
