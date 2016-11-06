@@ -1,6 +1,6 @@
 package com.tevinjeffrey.prolificlibrary.data.events;
 
-public class DeleteEvent {
+public class DeleteEvent extends Event {
     private final int id;
 
     public DeleteEvent(int id) {

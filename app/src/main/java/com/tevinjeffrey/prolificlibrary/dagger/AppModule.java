@@ -14,6 +14,7 @@ import com.tevinjeffrey.prolificlibrary.data.DataManager;
 import com.tevinjeffrey.prolificlibrary.data.DataManagerImpl;
 import com.tevinjeffrey.prolificlibrary.data.DateDeserializer;
 import com.tevinjeffrey.prolificlibrary.data.RetroLibrary;
+import com.tevinjeffrey.prolificlibrary.data.events.Event;
 
 import java.util.Date;
 
@@ -26,14 +27,8 @@ import rx.subjects.PublishSubject;
 import rx.subjects.SerializedSubject;
 import rx.subjects.Subject;
 
-@Module
-class AppModule {
-    private final LibraryApplication libraryApplication;
-
-    public AppModule(LibraryApplication libraryApplication) {
-        this.libraryApplication = libraryApplication;
-    }
-
+@Module(subcomponents = PresentationComponent.class)
+public class AppModule {
     @Provides
     @PerApplication
     public OkHttpClient providesOkHttpClient() {
@@ -51,15 +46,15 @@ class AppModule {
 
     @Provides
     @PerApplication
-    public DataManager providesDataManager(RetroLibrary retroLibrary, @RxBus Subject<Object, Object> rxBus) {
+    public DataManager providesDataManager(RetroLibrary retroLibrary, @RxBus Subject<Event, Event> rxBus) {
         return new DataManagerImpl(retroLibrary, rxBus);
     }
 
     @Provides
     @PerApplication
     @RxBus
-    public Subject<Object, Object> providesRxBus() {
-        return new SerializedSubject<>(PublishSubject.create());
+    public Subject<Event, Event> providesRxBus() {
+        return new SerializedSubject<>(PublishSubject.<Event>create());
     }
 
     @Provides

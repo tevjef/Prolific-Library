@@ -1,24 +1,19 @@
 package com.tevinjeffrey.prolificlibrary.ui;
 
-import com.tevinjeffrey.prolificlibrary.dagger.annotations.PerActivity;
 import com.tevinjeffrey.prolificlibrary.data.DataManager;
 import com.tevinjeffrey.prolificlibrary.data.model.Book;
 import com.tevinjeffrey.prolificlibrary.ui.base.BasePresenter;
 import com.tevinjeffrey.prolificlibrary.utils.RxUtils;
-
-import javax.inject.Inject;
 
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-@PerActivity
-class NewBookPresenter extends BasePresenter<NewBookView> {
+public class NewBookPresenter extends BasePresenter<NewBookView> {
     private final DataManager dataManager;
     private Subscription subscription;
 
-    @Inject
     public NewBookPresenter(DataManager manager) {
         this.dataManager = manager;
     }

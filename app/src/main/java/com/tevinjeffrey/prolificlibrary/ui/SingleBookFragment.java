@@ -24,8 +24,8 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.tevinjeffrey.prolificlibrary.LibraryApplication;
 import com.tevinjeffrey.prolificlibrary.R;
-import com.tevinjeffrey.prolificlibrary.dagger.UiComponent;
 import com.tevinjeffrey.prolificlibrary.data.model.Book;
 import com.tevinjeffrey.prolificlibrary.ui.util.Utils;
 
@@ -66,7 +66,7 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
         // Inject
-        UiComponent.Initializer.init(getActivity()).inject(this);
+        LibraryApplication.presentationComponent(getActivity()).inject(this);
         // Attach
         singleBookPresenter.attachView(this);
         // Inflate layout

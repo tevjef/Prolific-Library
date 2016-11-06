@@ -5,21 +5,18 @@ import com.tevinjeffrey.prolificlibrary.data.model.Book;
 import com.tevinjeffrey.prolificlibrary.ui.base.BasePresenter;
 import com.tevinjeffrey.prolificlibrary.utils.RxUtils;
 
-import javax.inject.Inject;
-
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-class SingleBookPresenter extends BasePresenter<SingleBookView> {
+public class SingleBookPresenter extends BasePresenter<SingleBookView> {
     private final DataManager dataManager;
     private Subscription checkoutSubscription;
     private Subscription deleteSubscription;
     private Subscription updateSubscription;
 
-    @Inject
     public SingleBookPresenter(DataManager manager) {
         this.dataManager = manager;
     }

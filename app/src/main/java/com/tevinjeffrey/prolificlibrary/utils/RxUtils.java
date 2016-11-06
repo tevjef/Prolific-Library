@@ -5,8 +5,6 @@ import java.util.concurrent.TimeUnit;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Func1;
-import rx.subjects.Subject;
-import rx.subscriptions.CompositeSubscription;
 
 public class RxUtils {
 
@@ -14,14 +12,6 @@ public class RxUtils {
         if (subscription != null) {
             subscription.unsubscribe();
         }
-    }
-
-    public static CompositeSubscription getNewCompositeSubIfUnsubscribed(CompositeSubscription subscription) {
-        if (subscription == null || subscription.isUnsubscribed()) {
-            return new CompositeSubscription();
-        }
-
-        return subscription;
     }
 
     //https://github.com/kaushikgopal/RxJava-Android-Samples/blob/master/app/src/main/java/com/morihacky/android/rxjava/ExponentialBackoffFragment.java
@@ -62,12 +52,6 @@ public class RxUtils {
                     ", _retryDelayMillis=" + _retryDelayMillis +
                     ", _retryCount=" + _retryCount +
                     '}';
-        }
-    }
-
-    public static class RxBus {
-        public static void send(Subject<Object, Object> bus, Object o) {
-            bus.onNext(o);
         }
     }
 }
