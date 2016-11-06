@@ -33,28 +33,31 @@ import java.net.UnknownHostException;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class SingleBookFragment extends BottomSheetDialogFragment implements SingleBookView {
     public final static String SELECTED_BOOK = "book";
 
-    @Bind(R.id.book_name) TextView bookName;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbar;
-    @Bind(R.id.app_bar_layout) AppBarLayout appBarLayout;
-    @Bind(R.id.author_text) TextView authorText;
-    @Bind(R.id.author_view) FrameLayout authorView;
-    @Bind(R.id.publisher_text) TextView publisherText;
-    @Bind(R.id.publisher_view) FrameLayout publisherView;
-    @Bind(R.id.last_checkout_text) TextView lastCheckoutText;
-    @Bind(R.id.last_checkout_date) TextView lastCheckoutDate;
-    @Bind(R.id.last_checkout_view) FrameLayout lastCheckoutView;
-    @Bind(R.id.categories_text) TextView categoriesText;
-    @Bind(R.id.categories_view) FrameLayout categoriesView;
-    @Bind(R.id.fab_checkout) FloatingActionButton fabCheckout;
+    @BindView(R.id.book_name) TextView bookName;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbar;
+    @BindView(R.id.app_bar_layout) AppBarLayout appBarLayout;
+    @BindView(R.id.author_text) TextView authorText;
+    @BindView(R.id.author_view) FrameLayout authorView;
+    @BindView(R.id.publisher_text) TextView publisherText;
+    @BindView(R.id.publisher_view) FrameLayout publisherView;
+    @BindView(R.id.last_checkout_text) TextView lastCheckoutText;
+    @BindView(R.id.last_checkout_date) TextView lastCheckoutDate;
+    @BindView(R.id.last_checkout_view) FrameLayout lastCheckoutView;
+    @BindView(R.id.categories_text) TextView categoriesText;
+    @BindView(R.id.categories_view) FrameLayout categoriesView;
+    @BindView(R.id.fab_checkout) FloatingActionButton fabCheckout;
     @Inject SingleBookPresenter singleBookPresenter;
+
+    private Unbinder unbinder;
 
     private Book book;
     private View contentView;
@@ -71,7 +74,7 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
         // Set layout
         dialog.setContentView(contentView);
         // Bind view
-        ButterKnife.bind(this, contentView);
+        unbinder = ButterKnife.bind(this, contentView);
         // Get data
         book = getArguments().getParcelable(SELECTED_BOOK);
         // Bind data
@@ -105,7 +108,7 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
                     collapsingToolbar.setTitle(book.getTitle());
                     isShow = true;
                 } else if (isShow) {
-                    collapsingToolbar.setTitle("");
+                    collapsingToolbar.setTitle(" ");
                     isShow = false;
                 }
             }
@@ -160,7 +163,7 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
     public void onDestroyView() {
         super.onDestroyView();
         singleBookPresenter.detachView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     private void setBookDetails(Book book) {
@@ -206,11 +209,11 @@ public class SingleBookFragment extends BottomSheetDialogFragment implements Sin
         bookName.setText(TextUtils.isEmpty(book.getTitle()) ? getString(R.string.unknown) : book.getTitle());
     }
 
-    private void dimView(boolean eager, View viewToSet) {
+    private void dimView(boolean eager, View target) {
         if (eager) {
-            viewToSet.setAlpha(.5f);
+            target.setAlpha(.5f);
         } else {
-            viewToSet.setAlpha(1f);
+            target.setAlpha(1f);
         }
     }
 

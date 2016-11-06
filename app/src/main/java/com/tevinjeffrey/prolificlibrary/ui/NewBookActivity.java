@@ -17,18 +17,18 @@ import java.net.UnknownHostException;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class NewBookActivity extends BaseActivity implements NewBookView {
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.book_name_edit) EditText bookNameEdit;
-    @Bind(R.id.book_author_edit) EditText bookAuthorEdit;
-    @Bind(R.id.book_publisher_edit) EditText bookPublisherEdit;
-    @Bind(R.id.book_categories_edit) EditText bookCategoriesEdit;
-    @Bind(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.book_name_edit) EditText bookNameEdit;
+    @BindView(R.id.book_author_edit) EditText bookAuthorEdit;
+    @BindView(R.id.book_publisher_edit) EditText bookPublisherEdit;
+    @BindView(R.id.book_categories_edit) EditText bookCategoriesEdit;
+    @BindView(R.id.fab) FloatingActionButton fab;
 
     @Inject NewBookPresenter newBookPresenter;
 
@@ -72,7 +72,7 @@ public class NewBookActivity extends BaseActivity implements NewBookView {
 
     @Override
     protected void injectTargets() {
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         UiComponent.Initializer.init(this).inject(this);
     }
 

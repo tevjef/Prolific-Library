@@ -1,7 +1,9 @@
-<animated-vector
+<animated-vector xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt">
-    <aapt:attr name="android:drawable">
+    xmlns:aapt="http://schemas.android.com/aapt"
+    tools:targetApi="lollipop">
+    <aapt:attr name="android:drawable"
+        tools:ignore="MissingPrefix">
         <vector
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:width="24dp"

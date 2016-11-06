@@ -8,9 +8,7 @@ import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -30,7 +28,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.view.View.GONE;
@@ -40,18 +38,14 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
 
     private static final String STATE_BOOK_LIST = "com.tevinjeffrey.prolificlibrary.ui.BooksActivity.bookDataSet";
 
-    @Inject
-    BooksPresenter booksPresenter;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.booksList)
-    RecyclerView recyclerView;
-    @Bind(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @Bind(R.id.empty_view)
-    LinearLayout emptyView;
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
+    @Inject BooksPresenter booksPresenter;
+
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.books_list) RecyclerView recyclerView;
+    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.empty_view) LinearLayout emptyView;
+    @BindView(R.id.fab) FloatingActionButton fab;
+
     private ArrayList<Book> bookDataSet = new ArrayList<>();
     private Snackbar snackbar;
 
@@ -217,7 +211,7 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
 
     @Override
     protected void injectTargets() {
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         UiComponent.Initializer.init(this).inject(this);
     }
 

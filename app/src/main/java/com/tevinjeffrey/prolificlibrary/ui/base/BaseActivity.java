@@ -5,11 +5,13 @@ import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
 
     @LayoutRes
     protected int layoutId;
+    protected Unbinder unbinder;
 
     protected abstract void setupPresenter();
     protected abstract void destroyPresenter();
@@ -31,7 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
         destroyPresenter();
     }
 }
