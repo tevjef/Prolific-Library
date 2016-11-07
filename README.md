@@ -9,9 +9,9 @@
 
 - [Android SDK](http://developer.android.com/sdk/index.html).
 - Android [6.0 (API 23) ](http://developer.android.com/tools/revisions/platforms.html#6.0).
-- Android SDK Tools (Gradle 2.0+)
-- Android SDK Build tools 23.0.2
-- Android Support Repository 23.2
+- Android SDK Tools (Gradle 2.2.2+)
+- Android SDK Build tools 25.0.0
+- Android Support Repository 25.0.0
 - MinSdkVersion 14
 
 
