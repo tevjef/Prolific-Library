@@ -4,9 +4,9 @@ import com.tevinjeffrey.prolificlibrary.dagger.annotations.RxBus;
 import com.tevinjeffrey.prolificlibrary.data.events.AddEvent;
 import com.tevinjeffrey.prolificlibrary.data.events.DeleteAllEvent;
 import com.tevinjeffrey.prolificlibrary.data.events.DeleteEvent;
+import com.tevinjeffrey.prolificlibrary.data.events.Event;
 import com.tevinjeffrey.prolificlibrary.data.events.UpdateEvent;
 import com.tevinjeffrey.prolificlibrary.data.model.Book;
-import com.tevinjeffrey.prolificlibrary.utils.RxUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -22,11 +22,15 @@ import rx.subjects.Subject;
  * */
 public class InMemoryDataManager implements DataManager {
     private final RetroLibrary retroLibrary;
-    private final Subject<Object, Object> rxBus;
+    private final Subject<Event, Event> rxBus;
 
     private List<Book> cache;
 
-    public InMemoryDataManager(RetroLibrary retroLibrary, @RxBus Subject<Object, Object> rxBus) {
+    /**
+     * Gets the initial data set from the the RetroLibrary service.
+     * All other interactions are performed against that list of books
+     * */
+    public InMemoryDataManager(RetroLibrary retroLibrary, @RxBus Subject<Event, Event> rxBus) {
         this.retroLibrary = retroLibrary;
         this.rxBus = rxBus;
     }
@@ -53,7 +57,7 @@ public class InMemoryDataManager implements DataManager {
                 .doOnNext(new Action1<Book>() {
                     @Override
                     public void call(Book book) {
-                        RxUtils.RxBus.send(rxBus, new AddEvent(book));
+                        rxBus.onNext(new AddEvent(book));
                     }
                 });
     }
@@ -105,7 +109,7 @@ public class InMemoryDataManager implements DataManager {
                 .doOnNext(new Action1<Book>() {
                     @Override
                     public void call(Book book) {
-                        RxUtils.RxBus.send(rxBus, new UpdateEvent(book));
+                        rxBus.onNext(new UpdateEvent(book));
                     }
                 });
     }
@@ -117,7 +121,7 @@ public class InMemoryDataManager implements DataManager {
         return Observable.<Void>empty().doOnCompleted(new Action0() {
             @Override
             public void call() {
-                RxUtils.RxBus.send(rxBus, new DeleteEvent(id));
+                rxBus.onNext(new DeleteEvent(id));
             }
         });
     }
@@ -128,7 +132,7 @@ public class InMemoryDataManager implements DataManager {
         return Observable.<Void>empty().doOnCompleted(new Action0() {
             @Override
             public void call() {
-                RxUtils.RxBus.send(rxBus, new DeleteAllEvent());
+                rxBus.onNext(new DeleteAllEvent());
             }
         });
     }

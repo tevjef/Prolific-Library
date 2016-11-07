@@ -4,18 +4,27 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.tevinjeffrey.prolificlibrary.dagger.AppComponent;
+import com.tevinjeffrey.prolificlibrary.dagger.DaggerAppComponent;
+import com.tevinjeffrey.prolificlibrary.dagger.PresentationComponent;
 
 public class LibraryApplication extends Application {
 
-    private AppComponent appComponent;
+    private PresentationComponent presentationComponent;
+    AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        appComponent = AppComponent.Initializer.init(this);
+        setComponents(DaggerAppComponent.builder().build());
+
     }
 
-    public static AppComponent getAppComponent(Activity activity) {
-        return ((LibraryApplication)activity.getApplication()).appComponent;
+    public void setComponents(AppComponent appComponent) {
+        this.appComponent = appComponent;
+        presentationComponent = appComponent.presentationComponentBuilder().build();
+    }
+
+    public static PresentationComponent presentationComponent(Activity activity) {
+        return ((LibraryApplication)activity.getApplication()).presentationComponent;
     }
 }

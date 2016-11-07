@@ -16,8 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.tevinjeffrey.prolificlibrary.LibraryApplication;
 import com.tevinjeffrey.prolificlibrary.R;
-import com.tevinjeffrey.prolificlibrary.dagger.UiComponent;
 import com.tevinjeffrey.prolificlibrary.data.model.Book;
 import com.tevinjeffrey.prolificlibrary.ui.base.BaseActivity;
 import com.tevinjeffrey.prolificlibrary.ui.util.ItemClickListener;
@@ -212,34 +212,33 @@ public class BooksActivity extends BaseActivity implements BooksView, ItemClickL
     @Override
     protected void injectTargets() {
         unbinder = ButterKnife.bind(this);
-        UiComponent.Initializer.init(this).inject(this);
-    }
+        LibraryApplication.presentationComponent(this).inject(this);
 
-    AnimatedVectorDrawable prolificDrawable;
+    }
 
     @Override
     protected void setupToolbar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            prolificDrawable = (AnimatedVectorDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.prolificp_anim, null);
-            toolbar.setNavigationIcon(prolificDrawable);
+        // Initialize toolbar
+        setSupportActionBar(toolbar);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            final AnimatedVectorDrawable prolificDrawable = (AnimatedVectorDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.prolificp_anim, null);
+            toolbar.setNavigationIcon(prolificDrawable);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        if (!prolificDrawable.isRunning()) {
+                            prolificDrawable.start();
+                        }
+                    }
+                }
+            });
         } else {
             toolbar.setNavigationIcon(R.drawable.ic_prolificp);
         }
-        // Initialize toolbar
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getString(R.string.app_name));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if (!prolificDrawable.isRunning()) {
-                        prolificDrawable.start();
-                    }
-                }
-            }
-        });
 
+        toolbar.setTitle(getString(R.string.app_name));
     }
 
     @Override

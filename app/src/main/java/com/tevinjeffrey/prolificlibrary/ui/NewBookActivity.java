@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.tevinjeffrey.prolificlibrary.LibraryApplication;
 import com.tevinjeffrey.prolificlibrary.R;
-import com.tevinjeffrey.prolificlibrary.dagger.UiComponent;
 import com.tevinjeffrey.prolificlibrary.data.model.Book;
 import com.tevinjeffrey.prolificlibrary.ui.base.BaseActivity;
 
@@ -73,7 +73,7 @@ public class NewBookActivity extends BaseActivity implements NewBookView {
     @Override
     protected void injectTargets() {
         unbinder = ButterKnife.bind(this);
-        UiComponent.Initializer.init(this).inject(this);
+        LibraryApplication.presentationComponent(this).inject(this);
     }
 
     @Override

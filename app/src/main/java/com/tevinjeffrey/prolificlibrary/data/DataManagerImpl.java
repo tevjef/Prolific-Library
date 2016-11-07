@@ -4,6 +4,7 @@ import com.tevinjeffrey.prolificlibrary.dagger.annotations.RxBus;
 import com.tevinjeffrey.prolificlibrary.data.events.AddEvent;
 import com.tevinjeffrey.prolificlibrary.data.events.DeleteAllEvent;
 import com.tevinjeffrey.prolificlibrary.data.events.DeleteEvent;
+import com.tevinjeffrey.prolificlibrary.data.events.Event;
 import com.tevinjeffrey.prolificlibrary.data.events.UpdateEvent;
 import com.tevinjeffrey.prolificlibrary.data.model.Book;
 import com.tevinjeffrey.prolificlibrary.utils.RxUtils;
@@ -17,11 +18,11 @@ import rx.subjects.Subject;
 
 public class DataManagerImpl implements DataManager {
     private final RetroLibrary retroLibrary;
-    private final Subject<Object, Object> rxBus;
+    private final Subject<Event, Event> rxBus;
     private final int MAX_RETRIES = 2;
     private final int RETRY_DELAY = 2000;
 
-    public DataManagerImpl(RetroLibrary retroLibrary, @RxBus Subject<Object, Object> rxBus) {
+    public DataManagerImpl(RetroLibrary retroLibrary, @RxBus Subject<Event, Event> rxBus) {
         this.retroLibrary = retroLibrary;
         this.rxBus = rxBus;
     }
@@ -37,7 +38,7 @@ public class DataManagerImpl implements DataManager {
                 .doOnNext(new Action1<Book>() {
                     @Override
                     public void call(Book book) {
-                        RxUtils.RxBus.send(rxBus, new AddEvent(book));
+                        rxBus.onNext(new AddEvent(book));
                     }
                 });
     }
@@ -47,7 +48,7 @@ public class DataManagerImpl implements DataManager {
                 .retryWhen(new RxUtils.RetryWithDelay(MAX_RETRIES, RETRY_DELAY)).doOnNext(new Action1<Book>() {
                     @Override
                     public void call(Book book) {
-                        RxUtils.RxBus.send(rxBus, new UpdateEvent(book));
+                        rxBus.onNext(new UpdateEvent(book));
                     }
                 });
     }
@@ -58,7 +59,7 @@ public class DataManagerImpl implements DataManager {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        RxUtils.RxBus.send(rxBus, new DeleteEvent(id));
+                        rxBus.onNext(new DeleteEvent(id));
                     }
                 });
     }
@@ -69,7 +70,7 @@ public class DataManagerImpl implements DataManager {
                 .doOnCompleted(new Action0() {
                     @Override
                     public void call() {
-                        RxUtils.RxBus.send(rxBus, new DeleteAllEvent());
+                        rxBus.onNext(new DeleteAllEvent());
                     }
                 });
     }
