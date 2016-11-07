@@ -7,7 +7,6 @@ import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
-import com.tevinjeffrey.prolificlibrary.LibraryApplication;
 import com.tevinjeffrey.prolificlibrary.dagger.annotations.PerApplication;
 import com.tevinjeffrey.prolificlibrary.dagger.annotations.RxBus;
 import com.tevinjeffrey.prolificlibrary.data.DataManager;

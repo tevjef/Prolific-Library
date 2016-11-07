@@ -26,6 +26,10 @@ public class InMemoryDataManager implements DataManager {
 
     private List<Book> cache;
 
+    /**
+     * Gets the initial data set from the the RetroLibrary service.
+     * All other interactions are performed against that list of books
+     * */
     public InMemoryDataManager(RetroLibrary retroLibrary, @RxBus Subject<Event, Event> rxBus) {
         this.retroLibrary = retroLibrary;
         this.rxBus = rxBus;

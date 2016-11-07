@@ -1,6 +1,5 @@
 package com.tevinjeffrey.prolificlibrary.dagger;
 
-import com.tevinjeffrey.prolificlibrary.LibraryApplication;
 import com.tevinjeffrey.prolificlibrary.dagger.annotations.PerApplication;
 
 import dagger.Component;

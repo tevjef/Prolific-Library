@@ -10,13 +10,17 @@ import com.tevinjeffrey.prolificlibrary.dagger.PresentationComponent;
 public class LibraryApplication extends Application {
 
     private PresentationComponent presentationComponent;
+    AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        setComponents(DaggerAppComponent.builder().build());
 
-        AppComponent appComponent = DaggerAppComponent.builder().build();
+    }
 
+    public void setComponents(AppComponent appComponent) {
+        this.appComponent = appComponent;
         presentationComponent = appComponent.presentationComponentBuilder().build();
     }
 
